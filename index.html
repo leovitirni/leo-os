@@ -13,7 +13,18 @@
   .meta-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
   .pill { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 14px; font-size: 13px; color: #5f5e5a; }
   .pill strong { color: #1a1a18; font-weight: 500; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 2.5rem; }
+  .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+  .obj-card { border-radius: 12px; padding: 1rem 1.25rem; border: 0.5px solid; }
+  .obj-card.now { background: #fcebeb; border-color: #f09595; }
+  .obj-card.mid { background: #faeeda; border-color: #fac775; }
+  .obj-card.long { background: #eaf3de; border-color: #c0dd97; }
+  .obj-horizon { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .now .obj-horizon { color: #a32d2d; } .mid .obj-horizon { color: #854f0b; } .long .obj-horizon { color: #3b6d11; }
+  .obj-main { font-size: 20px; font-weight: 500; line-height: 1.2; margin-bottom: 6px; }
+  .now .obj-main { color: #791f1f; } .mid .obj-main { color: #633806; } .long .obj-main { color: #27500a; }
+  .obj-detail { font-size: 13px; line-height: 1.55; }
+  .now .obj-detail { color: #a32d2d; } .mid .obj-detail { color: #854f0b; } .long .obj-detail { color: #3b6d11; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 2.5rem; }
   .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
   .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-num { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
@@ -22,6 +33,7 @@
   .badge { font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
   .badge-solo { background: #e6f1fb; color: #0c447c; }
   .badge-parceria { background: #eeedfe; color: #3c3489; }
+  .badge-def { background: #f1efe8; color: #5f5e5a; }
   .divrow { border-top: 0.5px solid #e8e6e0; padding-top: 10px; }
   .row-label { font-size: 11px; font-weight: 500; color: #b4b2a9; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
   .items { list-style: none; }
@@ -34,8 +46,6 @@
   .money-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
   .money-item { font-size: 12px; color: #27500a; }
   .money-item .val { font-size: 15px; font-weight: 500; display: block; color: #175009; }
-  .meta-row { background: #f1efe8; border-radius: 8px; padding: 10px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.6; }
-  .meta-row strong { font-weight: 500; }
   .pilares-row { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 10px 12px; }
   .pilares-label { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
   .pilar { font-size: 13px; color: #2c2c2a; line-height: 1.55; display: flex; gap: 7px; align-items: flex-start; margin-bottom: 3px; }
@@ -57,41 +67,8 @@
   tbody tr:hover td { background: #faf9f6; }
   .td-name { font-weight: 500; }
   .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px; margin-top: 4px; }
-  .tg { background: #eaf3de; color: #3b6d11; }
-  .ta { background: #faeeda; color: #633806; }
-  .tr { background: #fcebeb; color: #791f1f; }
-  .self-advice { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.5rem; margin-top: 2.5rem; }
-  .advice-block { margin-bottom: 1rem; }
-  .advice-block:last-child { margin-bottom: 0; }
-  .advice-title { font-size: 13px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-  .advice-text { font-size: 14px; line-height: 1.7; color: #2c2c2a; }
-  .highlight { background: #faeeda; border-left: 3px solid #ba7517; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.65; color: #411a00; margin-top: 10px; }
-  .math-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-  .math-pill { background: #f1efe8; border-radius: 8px; padding: 6px 12px; font-size: 13px; color: #2c2c2a; }
-  .math-pill strong { font-weight: 500; }
-  .basic-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 10px; }
-  .basic-item { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.5; }
-  .basic-item strong { display: block; font-weight: 500; font-size: 12px; color: #888780; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
-  footer { text-align: center; font-size: 12px; color: #b4b2a9; margin-top: 2.5rem; padding-bottom: 1rem; }
-  .obj-section { margin-bottom: 2rem; }
-  .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-  .obj-card { border-radius: 12px; padding: 1rem 1.25rem; border: 0.5px solid; }
-  .obj-card.now { background: #fcebeb; border-color: #f09595; }
-  .obj-card.mid { background: #faeeda; border-color: #fac775; }
-  .obj-card.long { background: #eaf3de; border-color: #c0dd97; }
-  .obj-horizon { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-  .now .obj-horizon { color: #a32d2d; }
-  .mid .obj-horizon { color: #854f0b; }
-  .long .obj-horizon { color: #3b6d11; }
-  .obj-main { font-size: 20px; font-weight: 500; line-height: 1.2; margin-bottom: 6px; }
-  .now .obj-main { color: #791f1f; }
-  .mid .obj-main { color: #633806; }
-  .long .obj-main { color: #27500a; }
-  .obj-detail { font-size: 13px; line-height: 1.55; }
-  .now .obj-detail { color: #a32d2d; }
-  .mid .obj-detail { color: #854f0b; }
-  .long .obj-detail { color: #3b6d11; }
-  .accordion { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; margin-top: 2rem; overflow: hidden; }
+  .tg { background: #eaf3de; color: #3b6d11; } .ta { background: #faeeda; color: #633806; } .tr { background: #fcebeb; color: #791f1f; }
+  .accordion { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; margin-top: 1rem; overflow: hidden; }
   .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; cursor: pointer; user-select: none; }
   .accordion-header:hover { background: #f9f8f5; }
   .accordion-title { font-size: 15px; font-weight: 500; }
@@ -105,6 +82,19 @@
   .funil-num { font-size: 11px; font-weight: 500; color: #7f77dd; margin-bottom: 3px; }
   .funil-name { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 3px; }
   .funil-desc { font-size: 12px; color: #888780; line-height: 1.5; }
+  .self-advice { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.5rem; margin-top: 2rem; }
+  .advice-block { margin-bottom: 1rem; }
+  .advice-block:last-child { margin-bottom: 0; }
+  .advice-title { font-size: 13px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .advice-text { font-size: 14px; line-height: 1.7; color: #2c2c2a; }
+  .highlight { background: #faeeda; border-left: 3px solid #ba7517; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.65; color: #411a00; margin-top: 10px; }
+  .math-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .math-pill { background: #f1efe8; border-radius: 8px; padding: 6px 12px; font-size: 13px; color: #2c2c2a; }
+  .math-pill strong { font-weight: 500; }
+  .basic-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 10px; }
+  .basic-item { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.5; }
+  .basic-item strong { display: block; font-weight: 500; font-size: 12px; color: #888780; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+  footer { text-align: center; font-size: 12px; color: #b4b2a9; margin-top: 2.5rem; padding-bottom: 1rem; }
 </style>
 </head>
 <body>
@@ -120,23 +110,21 @@
     <div class="pill">Meta longo prazo: <strong>R$100k/mês em 1–2 anos</strong></div>
   </div>
 
-  <div class="obj-section">
-    <div class="obj-grid">
-      <div class="obj-card now">
-        <div class="obj-horizon">Curtíssimo prazo — Junho 2026</div>
-        <div class="obj-main">R$20k de lucro</div>
-        <div class="obj-detail">Este mês. Meta imediata.</div>
-      </div>
-      <div class="obj-card mid">
-        <div class="obj-horizon">Curto prazo — Setembro 2026</div>
-        <div class="obj-main">R$40k/mês com previsibilidade</div>
-        <div class="obj-detail">Trabalhando 25h/semana. Tempo livre para construir um negócio paralelo de alta escala.</div>
-      </div>
-      <div class="obj-card long">
-        <div class="obj-horizon">Longo prazo — Setembro 2027</div>
-        <div class="obj-main">R$100k/mês com previsibilidade</div>
-        <div class="obj-detail">Manter por pelo menos 4 anos. Negócio sólido e sustentável.</div>
-      </div>
+  <div class="obj-grid">
+    <div class="obj-card now">
+      <div class="obj-horizon">Curtíssimo prazo — Junho 2026</div>
+      <div class="obj-main">R$20k de lucro</div>
+      <div class="obj-detail">Este mês. Meta imediata.</div>
+    </div>
+    <div class="obj-card mid">
+      <div class="obj-horizon">Curto prazo — Setembro 2026</div>
+      <div class="obj-main">R$40k/mês com previsibilidade</div>
+      <div class="obj-detail">Trabalhando 25h/semana. Tempo livre para construir um negócio paralelo de alta escala.</div>
+    </div>
+    <div class="obj-card long">
+      <div class="obj-horizon">Longo prazo — Setembro 2027</div>
+      <div class="obj-main">R$100k/mês com previsibilidade</div>
+      <div class="obj-detail">Manter por pelo menos 4 anos. Negócio sólido e sustentável.</div>
     </div>
   </div>
 
@@ -162,18 +150,10 @@
         </div>
       </div>
       <div class="divrow">
-        <div class="row-label">Ajustes previstos</div>
-        <ul class="items">
-          <li><span class="dot da"></span>Fazer o básico (reuniões de venda, operação, marketing)</li>
-          <li><span class="dot da"></span>Novo método de trabalho e escopo de serviços</li>
-          <li><span class="dot da"></span>Focar em e-comms que já vendem (não do zero)</li>
-        </ul>
-      </div>
-      <div class="divrow">
         <div class="row-label">Vantagens</div>
         <ul class="items">
           <li><span class="dot dg"></span>Conhecimento e contexto já existentes</li>
-          <li><span class="dot dg"></span>Ticket médio mais alto (R$3k) viabiliza agência enxuta</li>
+          <li><span class="dot dg"></span>Ticket médio mais alto viabiliza agência enxuta</li>
           <li><span class="dot dg"></span>Autonomia total</li>
         </ul>
       </div>
@@ -217,7 +197,7 @@
         <div class="row-label">Vantagens</div>
         <ul class="items">
           <li><span class="dot dg"></span>Serviço gera maior LTV — cliente fica mais tempo</li>
-          <li><span class="dot dg"></span>Mais fácil vender para pequenos (não precisa faturar muito)</li>
+          <li><span class="dot dg"></span>Mais fácil vender para pequenos</li>
           <li><span class="dot dg"></span>Menos concorrido que loja virtual</li>
           <li><span class="dot dg"></span>Automatização de entregas possível com IA</li>
         </ul>
@@ -226,15 +206,15 @@
         <div class="row-label">Desvantagens</div>
         <ul class="items">
           <li><span class="dot dr"></span>Curva de aprendizado — precisa aprender a vender e entregar</li>
-          <li><span class="dot dr"></span>Primeiros clientes serão menores e para aprender na prática</li>
-          <li><span class="dot dr"></span>Solo — sem suporte técnico, risco de trocar de ideia</li>
+          <li><span class="dot dr"></span>Primeiros clientes menores enquanto aprende</li>
+          <li><span class="dot dr"></span>Solo — sem suporte técnico</li>
         </ul>
       </div>
       <div class="pilares-row">
         <div class="pilares-label">Pilares de fé</div>
         <div class="pilar"><span class="pilar-num">1</span>LTV maior = base mais estável, menos churn que e-comm</div>
         <div class="pilar"><span class="pilar-num">2</span>Ticket acessível abre mercado de pequenos (volume de leads maior)</div>
-        <div class="pilar"><span class="pilar-num">3</span>Autonomia total + automação com IA = pode chegar à meta com equipe enxuta</div>
+        <div class="pilar"><span class="pilar-num">3</span>Automação com IA = meta com equipe enxuta</div>
       </div>
       <div class="warn"><strong>Isolamento:</strong> Mentoria + contato ativo com pessoas do mercado de marketplace.</div>
     </div>
@@ -261,19 +241,17 @@
       <div class="divrow">
         <div class="row-label">Vantagens</div>
         <ul class="items">
-          <li><span class="dot dg"></span>Diego tem mais resultado e conexões que Pet — chegam mais rápido</li>
-          <li><span class="dot dg"></span>Leo aprende performance em marketplace junto com Diego</li>
+          <li><span class="dot dg"></span>Diego tem mais resultado e conexões que Pet</li>
+          <li><span class="dot dg"></span>Leo aprende marketplace junto com Diego</li>
           <li><span class="dot dg"></span>Diego manja de SaaS e IA — podem criar produto juntos</li>
-          <li><span class="dot dg"></span>Diego quer crescer agência grande — alinhamento de visão de crescimento</li>
         </ul>
       </div>
       <div class="divrow">
         <div class="row-label">Desvantagens</div>
         <ul class="items">
           <li><span class="dot dr"></span>Curto prazo fraco financeiramente para Leo</li>
-          <li><span class="dot dr"></span>Para Leo tirar R$40k, agência precisa faturar R$150k — caminho longo</li>
+          <li><span class="dot dr"></span>Para R$40k precisa de R$150k de faturamento — caminho longo</li>
           <li><span class="dot dr"></span>Diego quer agência grande; Leo prefere agência média + info + SaaS</li>
-          <li><span class="dot dr"></span>Leo toca o negócio mas divide resultado com Diego</li>
         </ul>
       </div>
       <div class="pilares-row">
@@ -316,8 +294,7 @@
         <ul class="items">
           <li><span class="dot dr"></span>Leo não cresce tecnicamente — foco só em venda</li>
           <li><span class="dot dr"></span>Peterson é enrolado para escalar — risco de perder cliente</li>
-          <li><span class="dot dr"></span>Para tirar R$40k, agência precisa faturar R$150k — caminho longo</li>
-          <li><span class="dot dr"></span>Curto prazo fraco financeiramente para Leo</li>
+          <li><span class="dot dr"></span>Para tirar R$40k precisa de R$150k de faturamento — caminho longo</li>
         </ul>
       </div>
       <div class="pilares-row">
@@ -329,65 +306,6 @@
       <div class="danger"><strong>Risco central:</strong> Peterson enrolado para escalar. Leo pode vender bem e o resultado na entrega ser fraco — perdendo clientes.</div>
     </div>
 
-  </div>
-
-  <hr>
-
-  <h2>Comparativo: curto prazo vs. médio prazo</h2>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th style="width:120px">Cenário</th>
-          <th style="width:90px">Lucro CP</th>
-          <th>Curto prazo (0–6 meses)</th>
-          <th>Médio prazo (6–24 meses)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="td-name">1 — Solo<br>loja virtual</td>
-          <td>A definir<br><small style="color:#888">(ticket R$3k)</small></td>
-          <td>Mercado concorrido. Exige diferencial claro e mudança real de execução — senão repete o histórico.<br><span class="tag ta">Risco de repetição</span></td>
-          <td>Agência de R$60k fat. / R$40k lucro com 2 pessoas. Viável se fizer o básico com constância.<br><span class="tag tg">Viável com execução</span></td>
-        </tr>
-        <tr>
-          <td class="td-name">2 — Solo<br>marketplace</td>
-          <td>Incerto<br><small style="color:#888">(curva 3–6m)</small></td>
-          <td>Primeiros meses são de aprendizado. Clientes menores. LTV maior desde o início.<br><span class="tag ta">Curva de aprendizado</span></td>
-          <td>Agência de R$60k fat. / R$40k lucro. Menor concorrência, maior LTV, automação com IA.<br><span class="tag tg">Alto potencial</span></td>
-        </tr>
-        <tr>
-          <td class="td-name">3 — Diego</td>
-          <td>Baixo<br><small style="color:#888">(~5% CP)</small></td>
-          <td>Aprendizado acelerado com Diego. Leo foca em vendas e marketing. Curto prazo financeiro fraco.<br><span class="tag ta">Fraco no CP</span></td>
-          <td>50/50 com R$150k de faturamento para Leo tirar R$40k. Trampolim para SaaS + info + mentoria.<br><span class="tag tg">Sólido no LP</span></td>
-        </tr>
-        <tr>
-          <td class="td-name">4 — Peterson</td>
-          <td>Baixo<br><small style="color:#888">(head comercial)</small></td>
-          <td>Leo foca só em venda. Sem crescimento técnico. Depende da entrega do Peterson.<br><span class="tag tr">Dependência alta</span></td>
-          <td>50/50 com R$150k. SaaS do Peterson pode ser diferencial de escala — se ele travar, trava tudo.<br><span class="tag ta">Risco de gargalo</span></td>
-        </tr>
-        <tr>
-          <td class="td-name">5 — Emprego<br>agência grande</td>
-          <td>R$5k+<br><small style="color:#888">(salário fixo)</small></td>
-          <td>Rotina estruturada, aprendizado em ambiente grande, convívio com mercado. Tempo e dinheiro travados.<br><span class="tag ta">Teto limitado</span></td>
-          <td>Sem construção de ativo próprio. Valioso como fase de aprendizado para depois abrir algo. Exige empresa grande (ex: V4) e presencial.<br><span class="tag ta">Trampolim</span></td>
-        </tr>
-        <tr>
-          <td class="td-name">6 — Solo<br>TikTok Shopping</td>
-          <td>Baixo<br><small style="color:#888">(curva 3–6m)</small></td>
-          <td>Primeiros clientes com ticket baixo enquanto aprende. Mercado novo, pouca concorrência. Nem Diego nem Pet atuam nisso.<br><span class="tag ta">Curva de aprendizado</span></td>
-          <td>Ticket sobe com resultado. Segmento em crescimento forte — entrar cedo pode valer muito. Mesmo modelo do marketplace: automatizável, LTV alto.<br><span class="tag tg">First mover</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <hr>
-
-  <div class="grid">
     <!-- C5 -->
     <div class="card">
       <div class="card-header">
@@ -476,6 +394,60 @@
       <div class="note"><strong>Treinamento oficial:</strong> <a href="https://seller-br.tiktok.com/university/home?default_language=pt-BR&identity=1&content_id=3875145967404801&role=seller" target="_blank" style="color:#0c447c;">TikTok Shop Academy Brasil ↗</a></div>
     </div>
 
+  </div>
+
+  <hr>
+
+  <h2>Comparativo: curto prazo vs. médio prazo</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:120px">Cenário</th>
+          <th style="width:90px">Lucro CP</th>
+          <th>Curto prazo (0–6 meses)</th>
+          <th>Médio prazo (6–24 meses)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">1 — Solo<br>loja virtual</td>
+          <td>A definir<br><small style="color:#888">(ticket R$3k)</small></td>
+          <td>Mercado concorrido. Exige diferencial claro e mudança real de execução — senão repete o histórico.<br><span class="tag ta">Risco de repetição</span></td>
+          <td>Agência de R$60k fat. / R$40k lucro com 2 pessoas. Viável se fizer o básico com constância.<br><span class="tag tg">Viável com execução</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">2 — Solo<br>marketplace</td>
+          <td>Incerto<br><small style="color:#888">(curva 3–6m)</small></td>
+          <td>Primeiros meses são de aprendizado. Clientes menores. LTV maior desde o início.<br><span class="tag ta">Curva de aprendizado</span></td>
+          <td>Agência de R$60k fat. / R$40k lucro. Menor concorrência, maior LTV, automação com IA.<br><span class="tag tg">Alto potencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">3 — Diego</td>
+          <td>Baixo<br><small style="color:#888">(~5% CP)</small></td>
+          <td>Aprendizado acelerado com Diego. Leo foca em vendas e marketing. Curto prazo financeiro fraco.<br><span class="tag ta">Fraco no CP</span></td>
+          <td>50/50 com R$150k de faturamento para Leo tirar R$40k. Trampolim para SaaS + info + mentoria.<br><span class="tag tg">Sólido no LP</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">4 — Peterson</td>
+          <td>Baixo<br><small style="color:#888">(head comercial)</small></td>
+          <td>Leo foca só em venda. Sem crescimento técnico. Depende da entrega do Peterson.<br><span class="tag tr">Dependência alta</span></td>
+          <td>50/50 com R$150k. SaaS do Peterson pode ser diferencial de escala — se ele travar, trava tudo.<br><span class="tag ta">Risco de gargalo</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">5 — Emprego<br>agência grande</td>
+          <td>R$5k+<br><small style="color:#888">(salário fixo)</small></td>
+          <td>Rotina estruturada, aprendizado em ambiente grande, convívio com mercado. Tempo e dinheiro travados.<br><span class="tag ta">Teto limitado</span></td>
+          <td>Sem construção de ativo próprio. Valioso como trampolim para abrir algo depois. Exige empresa grande e presencial.<br><span class="tag ta">Trampolim</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">6 — Solo<br>TikTok Shopping</td>
+          <td>Baixo<br><small style="color:#888">(curva 3–6m)</small></td>
+          <td>Primeiros clientes com ticket baixo enquanto aprende. Mercado novo, pouca concorrência. Nem Diego nem Pet atuam nisso.<br><span class="tag ta">Curva de aprendizado</span></td>
+          <td>Ticket sobe com resultado. Segmento em crescimento forte — entrar cedo pode valer muito. Mesmo modelo do marketplace: automatizável, LTV alto.<br><span class="tag tg">First mover</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="accordion">
@@ -575,16 +547,12 @@
     </div>
   </div>
 
-  <hr>
-
   <div class="self-advice">
     <h2>Conselho para mim mesmo</h2>
-
     <div class="advice-block">
       <div class="advice-title">O problema raiz</div>
       <div class="advice-text">Você não faz o básico. Atende clientes na base da confiança com entrega fraca — sem relatório, sem otimização, sem reunião frequente. E o pior: <strong>você não faz reunião de vendas. Nenhuma.</strong> Esse é o único motivo pelo qual você ainda não chegou nos R$30k.</div>
     </div>
-
     <div class="advice-block">
       <div class="advice-title">O básico que falta toda semana</div>
       <div class="basic-list">
@@ -596,7 +564,6 @@
         <div class="basic-item"><strong>Tráfego</strong>Rodar todo mês para captação.</div>
       </div>
     </div>
-
     <div class="advice-block">
       <div class="advice-title">O math</div>
       <div class="math-row">
@@ -607,12 +574,6 @@
         <div class="math-pill">→ 3 meses constância = <strong>R$20k+ de lucro</strong></div>
       </div>
     </div>
-
-    <div class="advice-block">
-      <div class="advice-title">Referência</div>
-      <div class="advice-text">Vini Olsen (~R$40–60k/mês): escritório, equipe pequena, resultado consistente. Não precisa disso agora — mas é o modelo. Uma ou duas pessoas te ajudando na operação e você foca em vender e gerir.</div>
-    </div>
-
     <div class="highlight">
       Você mais peca em marketing e venda. Não faz nenhum dos dois com constância. Fica fugindo, fica na preguiça.<br><br>
       Não é o segmento. Não é o sócio. Não é o cenário certo. <strong>É você fazendo o básico toda semana.</strong>
