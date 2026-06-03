@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Picture — Cenários Leo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 920px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #888780; margin-bottom: 1.5rem; }
+  .meta-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .pill { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 14px; font-size: 13px; color: #5f5e5a; }
+  .pill strong { color: #1a1a18; font-weight: 500; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 2.5rem; }
+  .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-num { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .card-title { font-size: 15px; font-weight: 500; line-height: 1.3; }
+  .card-sub { font-size: 12px; color: #888780; margin-top: 2px; }
+  .badge { font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .badge-solo { background: #e6f1fb; color: #0c447c; }
+  .badge-parceria { background: #eeedfe; color: #3c3489; }
+  .divrow { border-top: 0.5px solid #e8e6e0; padding-top: 10px; }
+  .row-label { font-size: 11px; font-weight: 500; color: #b4b2a9; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+  .items { list-style: none; }
+  .items li { font-size: 13px; color: #2c2c2a; line-height: 1.55; display: flex; gap: 7px; align-items: flex-start; margin-bottom: 3px; }
+  .items li:last-child { margin-bottom: 0; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .dg { background: #639922; } .dr { background: #e24b4a; } .da { background: #ba7517; }
+  .money-row { background: #eaf3de; border-radius: 8px; padding: 10px 12px; }
+  .money-label { font-size: 11px; font-weight: 500; color: #3b6d11; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .money-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
+  .money-item { font-size: 12px; color: #27500a; }
+  .money-item .val { font-size: 15px; font-weight: 500; display: block; color: #175009; }
+  .meta-row { background: #f1efe8; border-radius: 8px; padding: 10px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.6; }
+  .meta-row strong { font-weight: 500; }
+  .pilares-row { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 10px 12px; }
+  .pilares-label { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .pilar { font-size: 13px; color: #2c2c2a; line-height: 1.55; display: flex; gap: 7px; align-items: flex-start; margin-bottom: 3px; }
+  .pilar:last-child { margin-bottom: 0; }
+  .pilar-num { font-size: 11px; font-weight: 500; color: #7f77dd; min-width: 14px; padding-top: 2px; }
+  .warn { background: #faeeda; border-radius: 8px; padding: 9px 12px; font-size: 13px; color: #633806; line-height: 1.55; }
+  .warn strong { font-weight: 500; }
+  .note { background: #f1efe8; border-radius: 8px; padding: 9px 12px; font-size: 13px; color: #5f5e5a; line-height: 1.55; }
+  .danger { background: #fcebeb; border-radius: 8px; padding: 9px 12px; font-size: 13px; color: #791f1f; line-height: 1.55; }
+  .danger strong { font-weight: 500; }
+  hr { border: none; border-top: 0.5px solid #d3d1c7; margin: 2rem 0; }
+  h2 { font-size: 16px; font-weight: 500; margin-bottom: 1rem; }
+  .table-wrap { overflow-x: auto; background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; padding: 10px 14px; text-align: left; border-bottom: 0.5px solid #e8e6e0; background: #f9f8f5; }
+  thead th:first-child { border-radius: 12px 0 0 0; }
+  tbody td { padding: 11px 14px; border-bottom: 0.5px solid #f1efe8; color: #1a1a18; vertical-align: top; line-height: 1.55; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #faf9f6; }
+  .td-name { font-weight: 500; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px; margin-top: 4px; }
+  .tg { background: #eaf3de; color: #3b6d11; }
+  .ta { background: #faeeda; color: #633806; }
+  .tr { background: #fcebeb; color: #791f1f; }
+  .self-advice { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 1.5rem; margin-top: 2.5rem; }
+  .advice-block { margin-bottom: 1rem; }
+  .advice-block:last-child { margin-bottom: 0; }
+  .advice-title { font-size: 13px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .advice-text { font-size: 14px; line-height: 1.7; color: #2c2c2a; }
+  .highlight { background: #faeeda; border-left: 3px solid #ba7517; padding: 10px 14px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.65; color: #411a00; margin-top: 10px; }
+  .math-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .math-pill { background: #f1efe8; border-radius: 8px; padding: 6px 12px; font-size: 13px; color: #2c2c2a; }
+  .math-pill strong { font-weight: 500; }
+  .basic-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin-top: 10px; }
+  .basic-item { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.5; }
+  .basic-item strong { display: block; font-weight: 500; font-size: 12px; color: #888780; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+  footer { text-align: center; font-size: 12px; color: #b4b2a9; margin-top: 2.5rem; padding-bottom: 1rem; }
+  .obj-section { margin-bottom: 2rem; }
+  .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .obj-card { border-radius: 12px; padding: 1rem 1.25rem; border: 0.5px solid; }
+  .obj-card.now { background: #fcebeb; border-color: #f09595; }
+  .obj-card.mid { background: #faeeda; border-color: #fac775; }
+  .obj-card.long { background: #eaf3de; border-color: #c0dd97; }
+  .obj-horizon { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .now .obj-horizon { color: #a32d2d; }
+  .mid .obj-horizon { color: #854f0b; }
+  .long .obj-horizon { color: #3b6d11; }
+  .obj-main { font-size: 20px; font-weight: 500; line-height: 1.2; margin-bottom: 6px; }
+  .now .obj-main { color: #791f1f; }
+  .mid .obj-main { color: #633806; }
+  .long .obj-main { color: #27500a; }
+  .obj-detail { font-size: 13px; line-height: 1.55; }
+  .now .obj-detail { color: #a32d2d; }
+  .mid .obj-detail { color: #854f0b; }
+  .long .obj-detail { color: #3b6d11; }
+  .accordion { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; margin-top: 2rem; overflow: hidden; }
+  .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; cursor: pointer; user-select: none; }
+  .accordion-header:hover { background: #f9f8f5; }
+  .accordion-title { font-size: 15px; font-weight: 500; }
+  .accordion-sub { font-size: 13px; color: #888780; margin-top: 2px; }
+  .accordion-arrow { font-size: 18px; color: #888780; transition: transform 0.2s; }
+  .accordion-arrow.open { transform: rotate(180deg); }
+  .accordion-body { display: none; border-top: 0.5px solid #e8e6e0; padding: 1.25rem; }
+  .accordion-body.open { display: block; }
+  .funis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .funil-card { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 10px; padding: 10px 14px; }
+  .funil-num { font-size: 11px; font-weight: 500; color: #7f77dd; margin-bottom: 3px; }
+  .funil-name { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 3px; }
+  .funil-desc { font-size: 12px; color: #888780; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Big Picture — Próximos 3 Meses</h1>
+  <p class="subtitle">Cenários mapeados por Leo para decisão desta semana</p>
+
+  <div class="meta-bar">
+    <div class="pill">Renda atual: <strong>~R$15k/mês</strong></div>
+    <div class="pill">Meta curto prazo: <strong>R$30k/mês em 6 meses</strong></div>
+    <div class="pill">Regime: <strong>~20h/semana (manhã)</strong></div>
+    <div class="pill">Meta longo prazo: <strong>R$100k/mês em 1–2 anos</strong></div>
+  </div>
+
+  <div class="obj-section">
+    <div class="obj-grid">
+      <div class="obj-card now">
+        <div class="obj-horizon">Curtíssimo prazo — Junho 2026</div>
+        <div class="obj-main">R$20k de lucro</div>
+        <div class="obj-detail">Este mês. Meta imediata.</div>
+      </div>
+      <div class="obj-card mid">
+        <div class="obj-horizon">Curto prazo — Setembro 2026</div>
+        <div class="obj-main">R$40k/mês com previsibilidade</div>
+        <div class="obj-detail">Trabalhando 25h/semana. Tempo livre para construir um negócio paralelo de alta escala.</div>
+      </div>
+      <div class="obj-card long">
+        <div class="obj-horizon">Longo prazo — Setembro 2027</div>
+        <div class="obj-main">R$100k/mês com previsibilidade</div>
+        <div class="obj-detail">Manter por pelo menos 4 anos. Negócio sólido e sustentável.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- C1 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-num">Cenário 1</div>
+          <div class="card-title">Solo — assessoria de performance para loja virtual</div>
+          <div class="card-sub">Continua o que faz hoje, com ajustes no básico e nos serviços</div>
+        </div>
+        <span class="badge badge-solo">Solo</span>
+      </div>
+      <div class="money-row">
+        <div class="money-label">Financeiro</div>
+        <div class="money-grid">
+          <div class="money-item">Ticket alvo<span class="val">R$3k</span></div>
+          <div class="money-item">Meta faturamento<span class="val">R$60k</span></div>
+          <div class="money-item">Meta lucro<span class="val">R$40k</span></div>
+          <div class="money-item">Equipe<span class="val">2 pessoas</span></div>
+        </div>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Ajustes previstos</div>
+        <ul class="items">
+          <li><span class="dot da"></span>Fazer o básico (reuniões de venda, operação, marketing)</li>
+          <li><span class="dot da"></span>Novo método de trabalho e escopo de serviços</li>
+          <li><span class="dot da"></span>Focar em e-comms que já vendem (não do zero)</li>
+        </ul>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Vantagens</div>
+        <ul class="items">
+          <li><span class="dot dg"></span>Conhecimento e contexto já existentes</li>
+          <li><span class="dot dg"></span>Ticket médio mais alto (R$3k) viabiliza agência enxuta</li>
+          <li><span class="dot dg"></span>Autonomia total</li>
+        </ul>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Desvantagens</div>
+        <ul class="items">
+          <li><span class="dot dr"></span>Mercado mais concorrido e difícil de fechar cliente</li>
+          <li><span class="dot dr"></span>Entrega de resultado é mais complexa em loja virtual</li>
+          <li><span class="dot dr"></span>Risco de repetir os mesmos erros de sempre</li>
+        </ul>
+      </div>
+      <div class="pilares-row">
+        <div class="pilares-label">Pilares de fé</div>
+        <div class="pilar"><span class="pilar-num">1</span>Conhecimento existente — sem curva de aprendizado de segmento</div>
+        <div class="pilar"><span class="pilar-num">2</span>Ticket R$3k viabiliza meta de R$40k de lucro com poucos clientes</div>
+        <div class="pilar"><span class="pilar-num">3</span>Ajuste é de execução, não de produto — só fazer o básico que nunca fez</div>
+      </div>
+      <div class="warn"><strong>Risco principal:</strong> Mercado concorrido + entrega difícil. Diferencial precisa ser claro.</div>
+    </div>
+
+    <!-- C2 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-num">Cenário 2</div>
+          <div class="card-title">Solo — pivot para gestão de marketplace (ML + Shopee)</div>
+          <div class="card-sub">Mudar completamente o serviço. Aprender e entregar sozinho.</div>
+        </div>
+        <span class="badge badge-solo">Solo</span>
+      </div>
+      <div class="money-row">
+        <div class="money-label">Financeiro</div>
+        <div class="money-grid">
+          <div class="money-item">Ticket alvo<span class="val">R$3k</span></div>
+          <div class="money-item">Meta faturamento<span class="val">R$60k</span></div>
+          <div class="money-item">Meta lucro<span class="val">R$40k</span></div>
+          <div class="money-item">Equipe<span class="val">2 pessoas</span></div>
+        </div>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Vantagens</div>
+        <ul class="items">
+          <li><span class="dot dg"></span>Serviço gera maior LTV — cliente fica mais tempo</li>
+          <li><span class="dot dg"></span>Mais fácil vender para pequenos (não precisa faturar muito)</li>
+          <li><span class="dot dg"></span>Menos concorrido que loja virtual</li>
+          <li><span class="dot dg"></span>Automatização de entregas possível com IA</li>
+        </ul>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Desvantagens</div>
+        <ul class="items">
+          <li><span class="dot dr"></span>Curva de aprendizado — precisa aprender a vender e entregar</li>
+          <li><span class="dot dr"></span>Primeiros clientes serão menores e para aprender na prática</li>
+          <li><span class="dot dr"></span>Solo — sem suporte técnico, risco de trocar de ideia</li>
+        </ul>
+      </div>
+      <div class="pilares-row">
+        <div class="pilares-label">Pilares de fé</div>
+        <div class="pilar"><span class="pilar-num">1</span>LTV maior = base mais estável, menos churn que e-comm</div>
+        <div class="pilar"><span class="pilar-num">2</span>Ticket acessível abre mercado de pequenos (volume de leads maior)</div>
+        <div class="pilar"><span class="pilar-num">3</span>Autonomia total + automação com IA = pode chegar à meta com equipe enxuta</div>
+      </div>
+      <div class="warn"><strong>Isolamento:</strong> Mentoria + contato ativo com pessoas do mercado de marketplace.</div>
+    </div>
+
+    <!-- C3 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-num">Cenário 3</div>
+          <div class="card-title">Eu e Diego — Leo como braço direito</div>
+          <div class="card-sub">Leo = operação, vendas e marketing. ~5% dos clientes/projeto no início.</div>
+        </div>
+        <span class="badge badge-parceria">Parceria</span>
+      </div>
+      <div class="money-row">
+        <div class="money-label">Financeiro</div>
+        <div class="money-grid">
+          <div class="money-item">CP (Leo)<span class="val">Baixo</span></div>
+          <div class="money-item">Divisão LP<span class="val">50/50</span></div>
+          <div class="money-item">Para tirar R$40k<span class="val">R$150k fat.</span></div>
+          <div class="money-item">Responsável<span class="val">Leo toca</span></div>
+        </div>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Vantagens</div>
+        <ul class="items">
+          <li><span class="dot dg"></span>Diego tem mais resultado e conexões que Pet — chegam mais rápido</li>
+          <li><span class="dot dg"></span>Leo aprende performance em marketplace junto com Diego</li>
+          <li><span class="dot dg"></span>Diego manja de SaaS e IA — podem criar produto juntos</li>
+          <li><span class="dot dg"></span>Diego quer crescer agência grande — alinhamento de visão de crescimento</li>
+        </ul>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Desvantagens</div>
+        <ul class="items">
+          <li><span class="dot dr"></span>Curto prazo fraco financeiramente para Leo</li>
+          <li><span class="dot dr"></span>Para Leo tirar R$40k, agência precisa faturar R$150k — caminho longo</li>
+          <li><span class="dot dr"></span>Diego quer agência grande; Leo prefere agência média + info + SaaS</li>
+          <li><span class="dot dr"></span>Leo toca o negócio mas divide resultado com Diego</li>
+        </ul>
+      </div>
+      <div class="pilares-row">
+        <div class="pilares-label">Pilares de fé</div>
+        <div class="pilar"><span class="pilar-num">1</span>Autoridade e conexões do Diego aceleram o crescimento</div>
+        <div class="pilar"><span class="pilar-num">2</span>Aprendizado técnico de marketplace + SaaS enquanto trabalha</div>
+        <div class="pilar"><span class="pilar-num">3</span>Trampolim: construir base para depois escalar com info + mentoria + SaaS</div>
+      </div>
+      <div class="note"><strong>Visão de longo prazo do Leo:</strong> agência média + produção de conteúdo + mentorias + SaaS para escalar.</div>
+    </div>
+
+    <!-- C4 -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-num">Cenário 4</div>
+          <div class="card-title">Eu e Peterson — Leo como head comercial</div>
+          <div class="card-sub">Leo vende, Peterson toca a operação e entrega.</div>
+        </div>
+        <span class="badge badge-parceria">Parceria</span>
+      </div>
+      <div class="money-row">
+        <div class="money-label">Financeiro</div>
+        <div class="money-grid">
+          <div class="money-item">CP (Leo)<span class="val">Baixo</span></div>
+          <div class="money-item">Divisão LP<span class="val">50/50</span></div>
+          <div class="money-item">Para tirar R$40k<span class="val">R$150k fat.</span></div>
+          <div class="money-item">Responsável<span class="val">Leo toca</span></div>
+        </div>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Vantagens</div>
+        <ul class="items">
+          <li><span class="dot dg"></span>Peterson tem SaaS muito bom — produto de escala já pronto</li>
+          <li><span class="dot dg"></span>Divisão clara de papéis desde o início</li>
+        </ul>
+      </div>
+      <div class="divrow">
+        <div class="row-label">Desvantagens</div>
+        <ul class="items">
+          <li><span class="dot dr"></span>Leo não cresce tecnicamente — foco só em venda</li>
+          <li><span class="dot dr"></span>Peterson é enrolado para escalar — risco de perder cliente</li>
+          <li><span class="dot dr"></span>Para tirar R$40k, agência precisa faturar R$150k — caminho longo</li>
+          <li><span class="dot dr"></span>Curto prazo fraco financeiramente para Leo</li>
+        </ul>
+      </div>
+      <div class="pilares-row">
+        <div class="pilares-label">Pilares de fé</div>
+        <div class="pilar"><span class="pilar-num">1</span>SaaS do Peterson é produto de escala — diferencial real no mercado</div>
+        <div class="pilar"><span class="pilar-num">2</span>Leo foca exclusivamente em vendas — pode se especializar nisso</div>
+        <div class="pilar"><span class="pilar-num">3</span>Se Peterson entregar bem, o SaaS pode virar o produto principal</div>
+      </div>
+      <div class="danger"><strong>Risco central:</strong> Peterson enrolado para escalar. Leo pode vender bem e o resultado na entrega ser fraco — perdendo clientes.</div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h2>Comparativo: curto prazo vs. médio prazo</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:120px">Cenário</th>
+          <th style="width:90px">Lucro CP</th>
+          <th>Curto prazo (0–6 meses)</th>
+          <th>Médio prazo (6–24 meses)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name">1 — Solo<br>loja virtual</td>
+          <td>A definir<br><small style="color:#888">(ticket R$3k)</small></td>
+          <td>Mercado concorrido. Exige diferencial claro e mudança real de execução — senão repete o histórico.<br><span class="tag ta">Risco de repetição</span></td>
+          <td>Agência de R$60k fat. / R$40k lucro com 2 pessoas. Viável se fizer o básico com constância.<br><span class="tag tg">Viável com execução</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">2 — Solo<br>marketplace</td>
+          <td>Incerto<br><small style="color:#888">(curva 3–6m)</small></td>
+          <td>Primeiros meses são de aprendizado. Clientes menores. LTV maior desde o início.<br><span class="tag ta">Curva de aprendizado</span></td>
+          <td>Agência de R$60k fat. / R$40k lucro. Menor concorrência, maior LTV, automação com IA.<br><span class="tag tg">Alto potencial</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">3 — Diego</td>
+          <td>Baixo<br><small style="color:#888">(~5% CP)</small></td>
+          <td>Aprendizado acelerado com Diego. Leo foca em vendas e marketing. Curto prazo financeiro fraco.<br><span class="tag ta">Fraco no CP</span></td>
+          <td>50/50 com R$150k de faturamento para Leo tirar R$40k. Trampolim para SaaS + info + mentoria.<br><span class="tag tg">Sólido no LP</span></td>
+        </tr>
+        <tr>
+          <td class="td-name">4 — Peterson</td>
+          <td>Baixo<br><small style="color:#888">(head comercial)</small></td>
+          <td>Leo foca só em venda. Sem crescimento técnico. Depende da entrega do Peterson.<br><span class="tag tr">Dependência alta</span></td>
+          <td>50/50 com R$150k. SaaS do Peterson pode ser diferencial de escala — se ele travar, trava tudo.<br><span class="tag ta">Risco de gargalo</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div>
+        <div class="accordion-title">Pontos em aberto — cenários solo</div>
+        <div class="accordion-sub">Questões sem resposta. Precisam ser resolvidas antes de fechar o cenário.</div>
+      </div>
+      <span class="accordion-arrow">▾</span>
+    </div>
+    <div class="accordion-body">
+      <div class="funis-grid">
+        <div class="funil-card">
+          <div class="funil-num">Ponto 1</div>
+          <div class="funil-name">São Paulo faz sentido?</div>
+          <div class="funil-desc">Se você vai trabalhar sozinho, não tem motivo óbvio para estar em SP. O que a cidade oferece que justifica ficar?</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Ponto 2</div>
+          <div class="funil-name">Vai aguentar trabalhar sozinho?</div>
+          <div class="funil-desc">Trabalhar em casa, sem equipe, no dia a dia. Qual a estratégia para manter contato com o mercado e não perder o ritmo? Opção mapeada: ligar todo dia para um amigo ou alguém do mercado para conversar.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div>
+        <div class="accordion-title">Ideias em aberto</div>
+        <div class="accordion-sub">Outros caminhos que podem virar negócio. Não são cenários definidos.</div>
+      </div>
+      <span class="accordion-arrow">▾</span>
+    </div>
+    <div class="accordion-body">
+      <div class="funis-grid">
+        <div class="funil-card">
+          <div class="funil-num">Ideia 1</div>
+          <div class="funil-name">TikTok Shopping — assessoria para lojistas</div>
+          <div class="funil-desc">Segmento em crescimento forte no Brasil. Próximos 5 anos devem ser bons. Possíveis serviços: gestão de ads, estratégia de conteúdo para marca, lives de vendas, assessoria completa de TikTok para lojistas. Ticket inicial ~R$3k. Combina serviço + monetização própria via conteúdo. Referência para aprender: MVM. Status: não validado ainda.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div>
+        <div class="accordion-title">Funis de venda</div>
+        <div class="accordion-sub">Clique para ver os 8 funis mapeados para aquisição de clientes</div>
+      </div>
+      <span class="accordion-arrow">▾</span>
+    </div>
+    <div class="accordion-body">
+      <div class="funis-grid">
+        <div class="funil-card">
+          <div class="funil-num">Funil 1</div>
+          <div class="funil-name">Inativo (liquidativo)</div>
+          <div class="funil-desc">Reativação de leads e contatos antigos com oferta direta.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 2</div>
+          <div class="funil-name">Vídeo Aita</div>
+          <div class="funil-desc">Funil de vídeo de vendas baseado no método Aita.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 3</div>
+          <div class="funil-name">Live semanal</div>
+          <div class="funil-desc">Live recorrente toda semana para aquecer audiência e vender.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 4</div>
+          <div class="funil-name">Live fake</div>
+          <div class="funil-desc">Live gravada com aparência de ao vivo para escalar o formato.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 5</div>
+          <div class="funil-name">Low ticket</div>
+          <div class="funil-desc">Produto de entrada barato para gerar volume e qualificar leads.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 6</div>
+          <div class="funil-name">SaaS</div>
+          <div class="funil-desc">Funil de aquisição via ferramenta ou produto recorrente.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 7</div>
+          <div class="funil-name">LinkedIn</div>
+          <div class="funil-desc">Conteúdo no LinkedIn para atrair leads B2B e gerar autoridade.</div>
+        </div>
+        <div class="funil-card">
+          <div class="funil-num">Funil 8</div>
+          <div class="funil-name">Orgânico — carrossel (Brent Decoded)</div>
+          <div class="funil-desc">Carrosséis no Instagram baseados no método Brent Decoded para crescimento orgânico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="self-advice">
+    <h2>Conselho para mim mesmo</h2>
+
+    <div class="advice-block">
+      <div class="advice-title">O problema raiz</div>
+      <div class="advice-text">Você não faz o básico. Atende clientes na base da confiança com entrega fraca — sem relatório, sem otimização, sem reunião frequente. E o pior: <strong>você não faz reunião de vendas. Nenhuma.</strong> Esse é o único motivo pelo qual você ainda não chegou nos R$30k.</div>
+    </div>
+
+    <div class="advice-block">
+      <div class="advice-title">O básico que falta toda semana</div>
+      <div class="basic-list">
+        <div class="basic-item"><strong>Vendas</strong>4–5 reuniões/semana. SDR, agendamento, CRM.</div>
+        <div class="basic-item"><strong>Marketing</strong>1 post/dia + 1 post bem feito no LinkedIn/semana.</div>
+        <div class="basic-item"><strong>Operação</strong>Auditoria + reunião de resultado com clientes.</div>
+        <div class="basic-item"><strong>Atualização</strong>1h/semana de mercado, IA, curso.</div>
+        <div class="basic-item"><strong>Equipe</strong>1 reunião semanal: LTV, retenção, resultado.</div>
+        <div class="basic-item"><strong>Tráfego</strong>Rodar todo mês para captação.</div>
+      </div>
+    </div>
+
+    <div class="advice-block">
+      <div class="advice-title">O math</div>
+      <div class="math-row">
+        <div class="math-pill">20 reuniões/mês</div>
+        <div class="math-pill">→ 25% conversão = <strong>4 clientes</strong></div>
+        <div class="math-pill">→ R$1.500/cliente = <strong>R$6k MMR novo</strong></div>
+        <div class="math-pill">→ repassa R$2k Tiago = <strong>R$4k limpo</strong></div>
+        <div class="math-pill">→ 3 meses constância = <strong>R$20k+ de lucro</strong></div>
+      </div>
+    </div>
+
+    <div class="advice-block">
+      <div class="advice-title">Referência</div>
+      <div class="advice-text">Vini Olsen (~R$40–60k/mês): escritório, equipe pequena, resultado consistente. Não precisa disso agora — mas é o modelo. Uma ou duas pessoas te ajudando na operação e você foca em vender e gerir.</div>
+    </div>
+
+    <div class="highlight">
+      Você mais peca em marketing e venda. Não faz nenhum dos dois com constância. Fica fugindo, fica na preguiça.<br><br>
+      Não é o segmento. Não é o sócio. Não é o cenário certo. <strong>É você fazendo o básico toda semana.</strong>
+    </div>
+  </div>
+
+  <footer>Atualizado em junho de 2026 · Leo</footer>
+
+</div>
+<script>
+function toggleAccordion(header) {
+  var body = header.nextElementSibling;
+  var arrow = header.querySelector('.accordion-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+</script>
+</body>
+</html>
