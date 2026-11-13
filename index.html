@@ -95,6 +95,28 @@
   .basic-item { background: #f9f8f5; border: 0.5px solid #e8e6e0; border-radius: 8px; padding: 8px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.5; }
   .basic-item strong { display: block; font-weight: 500; font-size: 12px; color: #888780; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
   footer { text-align: center; font-size: 12px; color: #b4b2a9; margin-top: 2.5rem; padding-bottom: 1rem; }
+  .dj-label { font-size: 11px; font-weight: 500; color: #888780; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .dj-input { width: 100%; font: inherit; font-size: 13px; color: #1a1a18; background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 8px 10px; line-height: 1.5; resize: vertical; }
+  .dj-input:focus { outline: none; border-color: #7f77dd; }
+  .dj-checks { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dj-checks label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #2c2c2a; background: #fff; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  .dj-checks label:has(input:checked) { background: #eaf3de; border-color: #c0dd97; color: #27500a; }
+  .dj-energy { display: flex; gap: 4px; }
+  .dj-energy button { width: 30px; height: 30px; border-radius: 8px; border: 0.5px solid #d3d1c7; background: #fff; font-size: 13px; color: #5f5e5a; cursor: pointer; }
+  .dj-energy button.on { background: #7f77dd; border-color: #7f77dd; color: #fff; }
+  .dj-btn { font: inherit; font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 0.5px solid #d3d1c7; background: #fff; color: #2c2c2a; cursor: pointer; }
+  .dj-btn:hover { background: #f1efe8; }
+  .dj-primary { background: #1a1a18; color: #fff; border-color: #1a1a18; }
+  .dj-primary:hover { background: #3a3a36; }
+  .dj-entry { background: #fff; border: 0.5px solid #e8e6e0; border-radius: 10px; padding: 10px 12px; font-size: 13px; color: #2c2c2a; line-height: 1.55; }
+  .dj-entry-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .dj-entry-date { font-weight: 500; }
+  .dj-entry-acts { display: flex; gap: 10px; font-size: 12px; }
+  .dj-entry-acts a { color: #7f77dd; cursor: pointer; text-decoration: none; }
+  .dj-entry-acts a.del { color: #a32d2d; }
+  .dj-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+  .dj-entry p { margin-top: 4px; }
+  .dj-entry p b { font-weight: 500; color: #888780; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 4px; }
 </style>
 </head>
 <body>
@@ -934,6 +956,81 @@
     </div>
   </div>
 
+  <!-- DIARIO -->
+  <div class="accordion" id="diario">
+    <div class="accordion-header" onclick="toggleAccordion(this)">
+      <div>
+        <div class="accordion-title">Diário</div>
+        <div class="accordion-sub">Uma entrada por dia. O básico foi feito? Como estou? O que ficou?</div>
+      </div>
+      <span class="accordion-arrow">▾</span>
+    </div>
+    <div class="accordion-body">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div style="background:#f9f8f5;border:0.5px solid #e8e6e0;border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+            <input type="date" id="dj-date" class="dj-input" style="width:auto;">
+            <span class="dj-label" style="margin:0;">Energia</span>
+            <div id="dj-energy" class="dj-energy"></div>
+          </div>
+
+          <div>
+            <div class="dj-label">O básico de hoje</div>
+            <div class="dj-checks">
+              <label><input type="checkbox" data-k="prospeccao"> Prospecção 1h</label>
+              <label><input type="checkbox" data-k="reuniao"> Reunião de venda</label>
+              <label><input type="checkbox" data-k="post"> 1 post</label>
+              <label><input type="checkbox" data-k="clientes"> Operação de clientes</label>
+              <label><input type="checkbox" data-k="projecao"> Projeção (lei da atração)</label>
+              <label><input type="checkbox" data-k="corpo"> Treino / corpo</label>
+            </div>
+          </div>
+
+          <div>
+            <div class="dj-label">O que fiz</div>
+            <textarea id="dj-fiz" class="dj-input" rows="3" placeholder="Reuniões, entregas, conversas, o que andou…"></textarea>
+          </div>
+          <div>
+            <div class="dj-label">Como me senti / o que drenou e o que recarregou</div>
+            <textarea id="dj-sinto" class="dj-input" rows="2"></textarea>
+          </div>
+          <div>
+            <div class="dj-label">O que aprendi</div>
+            <textarea id="dj-aprendi" class="dj-input" rows="2"></textarea>
+          </div>
+          <div>
+            <div class="dj-label">Amanhã, a 1 coisa que importa</div>
+            <input type="text" id="dj-amanha" class="dj-input">
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+            <button type="button" class="dj-btn dj-primary" onclick="djSave()">Salvar dia</button>
+            <button type="button" class="dj-btn" onclick="djNew()">Limpar</button>
+            <span id="dj-status" style="font-size:12px;color:#3b6d11;"></span>
+          </div>
+        </div>
+
+        <div id="dj-streak" class="math-row" style="margin:0;"></div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <div class="row-label" style="margin:0;">Entradas</div>
+            <div style="display:flex;gap:6px;">
+              <button type="button" class="dj-btn" onclick="djExport()">Exportar</button>
+              <button type="button" class="dj-btn" onclick="document.getElementById('dj-file').click()">Importar</button>
+              <input type="file" id="dj-file" accept="application/json" style="display:none;" onchange="djImport(this)">
+            </div>
+          </div>
+          <div id="dj-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <div class="note">Fica salvo neste navegador. Para não perder ou passar para outro aparelho, use <strong>Exportar</strong> de vez em quando e <strong>Importar</strong> no outro.</div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="self-advice">
     <h2>Conselho para mim mesmo</h2>
     <div class="advice-block">
@@ -1019,6 +1116,64 @@ function toggleAccordion(header) {
   body.classList.toggle('open');
   arrow.classList.toggle('open');
 }
+
+var DJ_KEY='leoos-diario-v1';
+var DJ_CHECKS={prospeccao:'Prospecção',reuniao:'Reunião',post:'Post',clientes:'Clientes',projecao:'Projeção',corpo:'Corpo'};
+var djEnergy=0;
+function djLoad(){try{return JSON.parse(localStorage.getItem(DJ_KEY))||{};}catch(e){return {};}}
+function djStore(d){try{localStorage.setItem(DJ_KEY,JSON.stringify(d));return true;}catch(e){return false;}}
+function djToday(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10);}
+function djEsc(t){return String(t||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function djFmt(iso){var p=iso.split('-');var w=['dom','seg','ter','qua','qui','sex','sáb'][new Date(+p[0],p[1]-1,+p[2]).getDay()];return w+' · '+p[2]+'/'+p[1]+'/'+p[0];}
+function djSetEnergy(n){djEnergy=n;document.querySelectorAll('#dj-energy button').forEach(function(b,i){b.classList.toggle('on',i<n);});}
+function djFill(e){
+  e=e||{};
+  djSetEnergy(e.energia||0);
+  document.querySelectorAll('.dj-checks input').forEach(function(c){c.checked=!!(e.basico&&e.basico[c.dataset.k]);});
+  ['fiz','sinto','aprendi','amanha'].forEach(function(k){document.getElementById('dj-'+k).value=e[k]||'';});
+}
+function djOpen(date){document.getElementById('dj-date').value=date;djFill(djLoad()[date]);document.getElementById('dj-status').textContent='';}
+function djNew(){djFill({});document.getElementById('dj-status').textContent='';}
+function djSave(){
+  var date=document.getElementById('dj-date').value||djToday();
+  var b={};document.querySelectorAll('.dj-checks input').forEach(function(c){b[c.dataset.k]=c.checked;});
+  var d=djLoad();
+  d[date]={energia:djEnergy,basico:b,fiz:document.getElementById('dj-fiz').value.trim(),sinto:document.getElementById('dj-sinto').value.trim(),aprendi:document.getElementById('dj-aprendi').value.trim(),amanha:document.getElementById('dj-amanha').value.trim()};
+  var ok=djStore(d);
+  var st=document.getElementById('dj-status');st.style.color=ok?'#3b6d11':'#a32d2d';
+  st.textContent=ok?'Salvo · '+djFmt(date):'Não consegui salvar neste navegador — use Exportar.';
+  djRender();
+}
+function djDel(date){if(!confirm('Apagar a entrada de '+djFmt(date)+'?'))return;var d=djLoad();delete d[date];djStore(d);djRender();}
+function djRender(){
+  var d=djLoad(),dates=Object.keys(d).sort().reverse(),list=document.getElementById('dj-list');
+  if(!dates.length){list.innerHTML='<div style="font-size:13px;color:#888780;">Nenhuma entrada ainda. Escreve a de hoje.</div>';}
+  else list.innerHTML=dates.map(function(k){
+    var e=d[k],tags=Object.keys(DJ_CHECKS).map(function(c){var on=e.basico&&e.basico[c];return '<span class="tag '+(on?'tg':'tr')+'" style="margin:0;">'+(on?'✓ ':'✗ ')+DJ_CHECKS[c]+'</span>';}).join('');
+    var rows=[['Fiz',e.fiz],['Senti',e.sinto],['Aprendi',e.aprendi],['Amanhã',e.amanha]].filter(function(r){return r[1];}).map(function(r){return '<p><b>'+r[0]+'</b>'+djEsc(r[1]).replace(/\n/g,'<br>')+'</p>';}).join('');
+    return '<div class="dj-entry"><div class="dj-entry-head"><span class="dj-entry-date">'+djFmt(k)+(e.energia?' <span style="color:#7f77dd;font-weight:400;">· energia '+e.energia+'/5</span>':'')+'</span><span class="dj-entry-acts"><a onclick="djOpen(\''+k+'\')">editar</a><a class="del" onclick="djDel(\''+k+'\')">apagar</a></span></div><div class="dj-tags">'+tags+'</div>'+rows+'</div>';
+  }).join('');
+  // resumo dos últimos 7 dias
+  var last=[],t=new Date();for(var i=0;i<7;i++){var x=new Date(t);x.setDate(t.getDate()-i);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());last.push(x.toISOString().slice(0,10));}
+  var reun=0,posts=0,pros=0,dias=0;last.forEach(function(k){var e=d[k];if(!e)return;dias++;if(e.basico){reun+=e.basico.reuniao?1:0;posts+=e.basico.post?1:0;pros+=e.basico.prospeccao?1:0;}});
+  var streak=0,s=new Date(t);for(;;){var y=new Date(s);y.setMinutes(y.getMinutes()-y.getTimezoneOffset());if(d[y.toISOString().slice(0,10)]){streak++;s.setDate(s.getDate()-1);}else break;}
+  document.getElementById('dj-streak').innerHTML='<div class="math-pill">Últimos 7 dias: <strong>'+dias+' registrados</strong></div><div class="math-pill">Reuniões: <strong>'+reun+'</strong> / 5</div><div class="math-pill">Posts: <strong>'+posts+'</strong> / 7</div><div class="math-pill">Prospecção: <strong>'+pros+'</strong> / 5</div><div class="math-pill">Sequência: <strong>'+streak+' dia'+(streak===1?'':'s')+'</strong></div>';
+}
+function djExport(){
+  var blob=new Blob([JSON.stringify(djLoad(),null,2)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='diario-leo-'+djToday()+'.json';document.body.appendChild(a);a.click();a.remove();
+}
+function djImport(inp){
+  var f=inp.files[0];if(!f)return;var r=new FileReader();
+  r.onload=function(){try{var inc=JSON.parse(r.result),d=djLoad();Object.keys(inc).forEach(function(k){if(/^\d{4}-\d{2}-\d{2}$/.test(k))d[k]=inc[k];});djStore(d);djRender();djOpen(document.getElementById('dj-date').value);alert('Importado.');}catch(e){alert('Arquivo inválido.');}inp.value='';};
+  r.readAsText(f);
+}
+(function(){
+  var en=document.getElementById('dj-energy');
+  for(var i=1;i<=5;i++){(function(n){var b=document.createElement('button');b.type='button';b.textContent=n;b.onclick=function(){djSetEnergy(djEnergy===n?0:n);};en.appendChild(b);})(i);}
+  var dt=document.getElementById('dj-date');dt.value=djToday();dt.onchange=function(){djOpen(dt.value);};
+  djOpen(djToday());djRender();
+})();
 </script>
 </body>
 </html>
