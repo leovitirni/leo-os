@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca de Ângulos</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f4f0; --card: #fff; --line: #d3d1c7; --line2: #e8e6e0; --ink: #1a1a18; --muted: #888780; --soft: #5f5e5a;
+    --n1: #eeedfe; --n1t: #3c3489; --n2: #fcebeb; --n2t: #a32d2d; --n3: #faeeda; --n3t: #854f0b; --n4: #e6f1fb; --n4t: #0c447c; --n5: #eaf3de; --n5t: #3b6d11;
+    --accent: #1a1a18;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --card: #1f1f1c; --line: #3a3934; --line2: #2c2b27; --ink: #ecebe6; --muted: #9a998f; --soft: #b8b6ad;
+      --n1: #2a2747; --n1t: #c4bffa; --n2: #3d2222; --n2t: #f3a9a9; --n3: #3b2e17; --n3t: #f2c27a; --n4: #1c2d40; --n4t: #9cc8f3; --n5: #233419; --n5t: #b4dc8c;
+      --accent: #ecebe6;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 2rem 16px; }
+  .container { max-width: 920px; margin: 0 auto; }
+  a { color: var(--n4t); }
+  h1 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 500; margin: 2rem 0 .75rem; }
+  .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.25rem; }
+  .card { background: var(--card); border: 0.5px solid var(--line); border-radius: 12px; padding: 1.1rem 1.25rem; margin-bottom: 12px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  label { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; display: block; margin-bottom: 4px; }
+  input, select, textarea { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 0.5px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+  textarea { min-height: 60px; resize: vertical; }
+  button { font: inherit; font-size: 13px; cursor: pointer; border-radius: 8px; padding: 7px 12px; border: 0.5px solid var(--line); background: var(--card); color: var(--ink); }
+  button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  button.ghost { background: transparent; }
+  button.danger { color: var(--n2t); }
+  button:disabled { opacity: .4; cursor: default; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 1rem 0 1.25rem; position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 5; }
+  .tab { border-radius: 999px; padding: 6px 14px; }
+  .tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .panel { display: none; } .panel.active { display: block; }
+  .rule { display: flex; gap: 10px; padding: 8px 0; border-top: 0.5px solid var(--line2); font-size: 14px; line-height: 1.5; }
+  .rule:first-child { border-top: 0; }
+  .rule .n { color: var(--muted); font-size: 12px; min-width: 18px; padding-top: 2px; }
+  .lvl { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+  .l1 { background: var(--n1); color: var(--n1t); } .l2 { background: var(--n2); color: var(--n2t); } .l3 { background: var(--n3); color: var(--n3t); } .l4 { background: var(--n4); color: var(--n4t); } .l5 { background: var(--n5); color: var(--n5t); }
+  .stat { background: var(--card); border: 0.5px solid var(--line); border-radius: 12px; padding: .9rem 1rem; }
+  .stat .v { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .stat .k { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; }
+  .angle { border-top: 0.5px solid var(--line2); padding: 10px 0; display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; }
+  .angle:first-child { border-top: 0; }
+  .angle .t { font-size: 14px; font-weight: 500; }
+  .angle .h { font-size: 13px; color: var(--soft); line-height: 1.45; grid-column: 1 / -1; }
+  .angle .meta { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: var(--line2); color: var(--soft); }
+  .chip.win { background: var(--n5); color: var(--n5t); } .chip.lose { background: var(--n2); color: var(--n2t); } .chip.live { background: var(--n4); color: var(--n4t); } .chip.used { background: var(--n3); color: var(--n3t); }
+  .camp { border: 0.5px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 12px; background: var(--card); }
+  .camp-h { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: baseline; margin-bottom: 8px; }
+  .camp-name { font-size: 14px; font-weight: 500; word-break: break-word; }
+  .ad { display: grid; grid-template-columns: 54px 1fr; gap: 4px 10px; padding: 8px 0; border-top: 0.5px solid var(--line2); font-size: 13px; }
+  .ad .id { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .ad .hook { color: var(--soft); grid-column: 2; line-height: 1.45; }
+  .bar { height: 8px; border-radius: 4px; background: var(--line2); overflow: hidden; display: flex; }
+  .bar span { display: block; height: 100%; }
+  .note { font-size: 13px; color: var(--soft); line-height: 1.55; }
+  .cal { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cal th, .cal td { text-align: left; padding: 8px 6px; border-top: 0.5px solid var(--line2); vertical-align: top; }
+  .cal th { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; border-top: 0; }
+  .table-wrap { overflow-x: auto; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 8px 16px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+  .back { font-size: 13px; color: var(--muted); text-decoration: none; }
+  details summary { cursor: pointer; font-size: 13px; color: var(--soft); }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Big Picture</a>
+  <h1 style="margin-top:.5rem;">Biblioteca de Ângulos — Meta Ads</h1>
+  <div class="subtitle">Foco em <strong>campanha campeã</strong>, não em anúncio campeão. 5–10 anúncios por campanha, cada um num nível de consciência, sem repetir ângulo nem formato. Nova campanha até zerar a biblioteca.</div>
+
+  <div class="card">
+    <div class="grid2">
+      <div>
+        <label for="clientSel">Cliente</label>
+        <select id="clientSel"></select>
+      </div>
+      <div class="row" style="align-items:flex-end;">
+        <button id="btnNewClient">+ Novo cliente</button>
+        <button id="btnRenameClient" class="ghost">Renomear</button>
+        <button id="btnDelClient" class="ghost danger">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="metodo">Método</button>
+    <button class="tab" data-tab="briefing">Briefing</button>
+    <button class="tab" data-tab="biblioteca">Biblioteca</button>
+    <button class="tab" data-tab="campanhas">Campanhas</button>
+    <button class="tab" data-tab="verba">Verba</button>
+    <button class="tab" data-tab="calendario">Calendário</button>
+  </div>
+
+  <!-- MÉTODO -->
+  <section class="panel active" id="p-metodo">
+    <div class="card">
+      <div class="rule"><span class="n">1</span><div>A maioria das pessoas não compra no 1º anúncio — compra depois de ver <strong>~5 vezes</strong>. Cada anúncio da campanha é um "toque" diferente.</div></div>
+      <div class="rule"><span class="n">2</span><div>Foco em <strong>campanha campeã</strong>, não em anúncio campeão. O resultado é do conjunto.</div></div>
+      <div class="rule"><span class="n">3</span><div><strong>Time de futebol:</strong> cada anúncio joga numa posição. O de topo (inconsciente) não precisa converter — ele "passa a bola" pro de oferta fazer o gol.</div></div>
+      <div class="rule"><span class="n">4</span><div><strong>Estrutura:</strong> CBO 1-1-1 com 5 a 10 criativos dentro do mesmo anúncio (mídia flexível). Se não der, <strong>CBO 1-1-X</strong> (1-1-5 a 1-1-10). Público <strong>Advantage+ 100% aberto</strong>.</div></div>
+      <div class="rule"><span class="n">5</span><div>5 a 10 anúncios <strong>variando o nível de consciência</strong>.</div></div>
+      <div class="rule"><span class="n">6</span><div>Dentro da campanha, <strong>não repete ângulo nem formato</strong>.</div></div>
+      <div class="rule"><span class="n">7</span><div>Sobe <strong>campanhas novas até zerar todos os ângulos</strong> da biblioteca. Depois, recicla os vencedores em formatos novos.</div></div>
+      <div class="rule"><span class="n">8</span><div>Tem <strong>calendário de produção</strong> — criativo é rotina, não evento.</div></div>
+      <div class="rule"><span class="n">9</span><div><strong>Aprendizado:</strong> &gt; 50 eventos de conversão em 7 dias. Ex.: R$8/conversão → ~R$57/dia.</div></div>
+      <div class="rule"><span class="n">10</span><div><strong>Otimização:</strong> mexer no máx. <strong>25% da verba</strong> pra cima ou pra baixo por vez.</div></div>
+      <div class="rule"><span class="n">11</span><div><strong>Verba diária = custo por conversão × 50 ÷ 7</strong>. Dá pra reduzir até 20% disso.</div></div>
+    </div>
+    <h2>Níveis de consciência (o "time")</h2>
+    <div class="card" id="levelsList"></div>
+    <h2>Fluxo de uso</h2>
+    <div class="card note">
+      1) <strong>Briefing</strong> do cliente (produto, dor, desejo, objeção, oferta) — os ganchos se preenchem sozinhos.<br>
+      2) <strong>Biblioteca</strong>: revise os ângulos, apague o que não serve, adicione os específicos do nicho.<br>
+      3) <strong>Campanhas</strong>: gere a próxima campanha (5–10 anúncios). Copie o briefing e mande pro editor/UGC.<br>
+      4) <strong>Verba</strong>: calcule o orçamento diário pelo CPA alvo.<br>
+      5) Depois de 7 dias / 50 eventos, marque cada ângulo como <em>vencedor</em> ou <em>perdedor</em>. Repita até zerar.
+    </div>
+  </section>
+
+  <!-- BRIEFING -->
+  <section class="panel" id="p-briefing">
+    <div class="card">
+      <div class="note" style="margin-bottom:12px;">Esses campos preenchem os ganchos da biblioteca (<code>{produto}</code>, <code>{dor}</code>, etc.).</div>
+      <div class="grid2" id="briefFields"></div>
+    </div>
+  </section>
+
+  <!-- BIBLIOTECA -->
+  <section class="panel" id="p-biblioteca">
+    <div class="stats" id="libStats"></div>
+    <div class="card">
+      <div class="bar" id="libBar" aria-label="Uso da biblioteca"></div>
+      <div class="small muted" style="margin-top:6px;" id="libBarLegend"></div>
+    </div>
+    <div class="card">
+      <div class="grid2">
+        <div><label for="fLevel">Nível</label><select id="fLevel"><option value="">Todos</option></select></div>
+        <div><label for="fStatus">Status</label><select id="fStatus">
+          <option value="">Todos</option><option value="livre">Livre</option><option value="usado">Em campanha</option><option value="vencedor">Vencedor</option><option value="perdedor">Perdedor</option><option value="neutro">Neutro</option>
+        </select></div>
+      </div>
+    </div>
+    <div class="card" id="angleList"></div>
+    <details class="card">
+      <summary>+ Adicionar ângulo próprio</summary>
+      <div class="grid2" style="margin-top:12px;">
+        <div><label for="nName">Ângulo</label><input id="nName" placeholder="Ex.: Mãe que trabalha fora"></div>
+        <div><label for="nLevel">Nível</label><select id="nLevel"></select></div>
+        <div><label for="nFormat">Formato sugerido</label><select id="nFormat"></select></div>
+        <div style="grid-column:1/-1;"><label for="nHook">Gancho (pode usar {produto}, {dor}, {desejo}, {objecao}, {oferta}, {publico})</label><textarea id="nHook"></textarea></div>
+      </div>
+      <div class="row" style="margin-top:10px;"><button class="primary" id="btnAddAngle">Adicionar</button></div>
+    </details>
+    <div class="row">
+      <button id="btnResetLib" class="ghost danger">Restaurar biblioteca padrão</button>
+    </div>
+  </section>
+
+  <!-- CAMPANHAS -->
+  <section class="panel" id="p-campanhas">
+    <div class="card">
+      <div class="grid2">
+        <div><label for="gCount">Anúncios na campanha</label><select id="gCount"></select></div>
+        <div><label for="gStruct">Estrutura</label><select id="gStruct">
+          <option value="111">CBO 1-1-1 (mídia flexível, 5–10 criativos)</option>
+          <option value="11x">CBO 1-1-X (um anúncio por criativo)</option>
+        </select></div>
+        <div><label for="gObj">Objetivo</label><select id="gObj">
+          <option>Vendas</option><option>Leads</option><option>Mensagens</option>
+        </select></div>
+      </div>
+      <div class="row" style="margin-top:12px;">
+        <button class="primary" id="btnGen">Gerar próxima campanha</button>
+        <span class="small muted" id="genInfo"></span>
+      </div>
+    </div>
+    <div id="campList"></div>
+  </section>
+
+  <!-- VERBA -->
+  <section class="panel" id="p-verba">
+    <div class="card">
+      <div class="grid2">
+        <div><label for="vCpa">Custo por conversão / lead alvo (R$)</label><input id="vCpa" type="number" min="0" step="0.5" inputmode="decimal"></div>
+        <div><label for="vCur">Verba diária atual (R$) — opcional</label><input id="vCur" type="number" min="0" step="1" inputmode="decimal"></div>
+      </div>
+    </div>
+    <div class="stats" id="verbaStats"></div>
+    <div class="card note" id="verbaNote"></div>
+  </section>
+
+  <!-- CALENDÁRIO -->
+  <section class="panel" id="p-calendario">
+    <div class="card">
+      <div class="grid2">
+        <div><label for="cStart">Início da produção</label><input id="cStart" type="date"></div>
+        <div><label for="cCap">Criativos produzidos por semana</label><input id="cCap" type="number" min="1" step="1" inputmode="numeric"></div>
+      </div>
+      <div class="small muted" style="margin-top:8px;">Cada campanha é produzida e sobe na segunda seguinte. Mínimo 7 dias no ar antes de julgar.</div>
+    </div>
+    <div class="card table-wrap"><table class="cal" id="calTable"></table></div>
+  </section>
+
+  <h2>Backup</h2>
+  <div class="card row">
+    <button id="btnExport">Exportar JSON</button>
+    <button id="btnImport">Importar JSON</button>
+    <input type="file" id="fileImport" accept="application/json" style="display:none;">
+    <span class="small muted">Os dados ficam salvos neste navegador.</span>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LEVELS = [
+  { id: 1, nome: 'Inconsciente', papel: 'Atacante de longe: para o scroll com algo interessante, sem vender. Gera público.' },
+  { id: 2, nome: 'Consciente do problema', papel: 'Meio-campo: nomeia a dor e agita. A pessoa se reconhece.' },
+  { id: 3, nome: 'Consciente da solução', papel: 'Armador: mostra que existe um jeito melhor (mecanismo).' },
+  { id: 4, nome: 'Consciente do produto', papel: 'Ponta: prova, diferencia e quebra objeções do seu produto.' },
+  { id: 5, nome: 'Mais consciente', papel: 'Centroavante: oferta, urgência e garantia. Faz o gol.' },
+];
+const FORMATS = [
+  'UGC / depoimento', 'Talking head', 'Demonstração', 'Antes e depois', 'Carrossel', 'Estático (manchete)',
+  'Unboxing', 'Comparativo lado a lado', 'VSL curta', 'Green screen / reação', 'Trend / meme', 'Bastidores',
+  'Lista ("3 motivos")', 'Resposta a comentário', 'Corte de podcast'
+];
+const DEFAULT_ANGLES = [
+  // N1
+  [1, 'Curiosidade / fato surpreendente', 'Estático (manchete)', 'Pouca gente sabe disso sobre {categoria}…'],
+  [1, 'História pessoal', 'Talking head', 'Há um tempo eu também vivia {dor}. Aí aconteceu uma coisa…'],
+  [1, 'Opinião contrária', 'Green screen / reação', 'Vou falar o que ninguém do mercado de {categoria} tem coragem de falar.'],
+  [1, 'Identificação de estilo de vida', 'Trend / meme', 'Se você é {publico}, esse vídeo é sobre você.'],
+  [1, 'Educação pura (dica sem vender)', 'Lista ("3 motivos")', '3 coisas que eu queria ter sabido antes sobre {categoria}.'],
+  [1, 'Inimigo comum', 'Corte de podcast', 'O verdadeiro culpado por {dor} não é você.'],
+  [1, 'Bastidores curiosos', 'Bastidores', 'Olha o que acontece por trás de um {produto} antes de chegar na sua casa.'],
+  // N2
+  [2, 'Dor principal', 'UGC / depoimento', 'Cansada(o) de {dor}?'],
+  [2, 'Consequência da dor', 'Talking head', 'Se você continuar com {dor}, daqui 6 meses vai estar pior.'],
+  [2, 'Erro comum', 'Lista ("3 motivos")', 'O erro que quase todo mundo comete quando tenta resolver {dor}.'],
+  [2, 'Custo oculto', 'Estático (manchete)', 'Quanto {dor} está te custando sem você perceber?'],
+  [2, 'Tentativas frustradas', 'UGC / depoimento', 'Já tentou de tudo pra resolver {dor} e nada funcionou?'],
+  [2, 'Diagnóstico / sinais', 'Carrossel', '3 sinais de que você tem {dor} (e não sabe).'],
+  [2, 'Cena do dia a dia', 'Trend / meme', 'POV: você de novo lidando com {dor}.'],
+  // N3
+  [3, 'Novo mecanismo', 'VSL curta', 'O motivo de nada ter funcionado não é você — é o jeito que te ensinaram.'],
+  [3, 'Passo a passo / método', 'Carrossel', 'Como sair de {dor} pra {desejo} em 3 passos.'],
+  [3, 'Comparação de categoria', 'Comparativo lado a lado', 'Por que o jeito antigo não resolve {dor} (e o que resolve).'],
+  [3, 'Mito vs. verdade', 'Green screen / reação', 'Mito: pra ter {desejo} você precisa sofrer. Verdade:'],
+  [3, 'Desejo / transformação', 'Talking head', 'Imagina acordar amanhã com {desejo}.'],
+  [3, 'Atalho / facilidade', 'Demonstração', 'O jeito mais simples de ter {desejo} sem complicação.'],
+  [3, 'Especialista explica', 'Corte de podcast', 'Um especialista explica por que {dor} acontece.'],
+  // N4
+  [4, 'Demonstração / prova visual', 'Demonstração', 'Olha o {produto} funcionando na prática.'],
+  [4, 'Prova social', 'UGC / depoimento', 'Mais de mil pessoas já trocaram {dor} por {desejo} com o {produto}.'],
+  [4, 'Comparativo com concorrente', 'Comparativo lado a lado', '{produto} vs. o que você usa hoje: a diferença.'],
+  [4, 'Quebra de objeção', 'Resposta a comentário', '"{objecao}" — respondendo a pergunta que mais recebo.'],
+  [4, 'Diferencial único', 'Talking head', 'O que só o {produto} tem e nenhum outro faz.'],
+  [4, 'Antes e depois', 'Antes e depois', 'Antes: {dor}. Depois do {produto}: {desejo}.'],
+  [4, 'Review honesto', 'UGC / depoimento', 'Testei o {produto} por 30 dias. Minha opinião sincera.'],
+  [4, 'Unboxing / primeira impressão', 'Unboxing', 'Chegou o {produto}! Abrindo com vocês.'],
+  [4, 'Uso específico', 'Lista ("3 motivos")', '3 jeitos de usar o {produto} que você não imaginava.'],
+  // N5
+  [5, 'Oferta direta', 'Estático (manchete)', '{oferta} — só no site oficial.'],
+  [5, 'Urgência / escassez', 'Talking head', 'Últimas unidades: {oferta} acaba em breve.'],
+  [5, 'Garantia / risco zero', 'Carrossel', 'Se não gostar, devolvemos seu dinheiro. Sem perguntas.'],
+  [5, 'Remarketing "ainda pensando?"', 'Resposta a comentário', 'Ainda pensando no {produto}? Isso aqui pode te ajudar a decidir.'],
+  [5, 'Prova numérica', 'Estático (manchete)', '+10 mil clientes. Nota 4,9. {oferta}.'],
+  [5, 'Bônus / kit', 'Unboxing', 'Comprando hoje você leva {oferta}.'],
+  [5, 'Condição de pagamento / frete', 'VSL curta', 'Frete grátis + parcelado: o momento de garantir o seu {produto}.'],
+];
+const BRIEF = [
+  ['produto', 'Produto / marca', 'Ex.: Sérum Vitamina C'],
+  ['categoria', 'Categoria', 'Ex.: skincare'],
+  ['publico', 'Público', 'Ex.: mulher 25–40 que trabalha fora'],
+  ['dor', 'Dor principal', 'Ex.: manchas no rosto'],
+  ['desejo', 'Desejo / transformação', 'Ex.: pele uniforme sem maquiagem'],
+  ['objecao', 'Objeção principal', 'Ex.: é caro / será que funciona?'],
+  ['oferta', 'Oferta atual', 'Ex.: 30% OFF + frete grátis'],
+  ['site', 'Link / destino', 'Ex.: loja.com.br/serum'],
+];
+
+const KEY = 'leo-angulos-v1';
+let db = load();
+
+function uid() { return Math.random().toString(36).slice(2, 9); }
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function brl(n) { return isFinite(n) ? n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }) : '—'; }
+function defaultAngles() { return DEFAULT_ANGLES.map(([level, name, format, hook]) => ({ id: uid(), level, name, format, hook, status: 'livre', camp: null })); }
+function newClient(nome) { return { id: uid(), nome, brief: {}, angles: defaultAngles(), camps: [], cpa: 8, cur: '', start: '', cap: 7 }; }
+function load() {
+  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.clients && d.clients.length) return d; } catch (e) {}
+  const c = newClient('Cliente exemplo');
+  return { current: c.id, clients: [c] };
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
+function cl() { return db.clients.find(c => c.id === db.current) || db.clients[0]; }
+function fill(t) {
+  const b = cl().brief;
+  return String(t).replace(/\{(\w+)\}/g, (m, k) => (b[k] && b[k].trim()) ? b[k].trim() : '[' + k + ']');
+}
+function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1600); }
+function lvlTag(l) { return `<span class="lvl l${l}">N${l} · ${esc(LEVELS[l - 1].nome)}</span>`; }
+
+// ---------- tabs
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'p-' + b.dataset.tab));
+  try { localStorage.setItem(KEY + '-tab', b.dataset.tab); } catch (e) {}
+}));
+try { const t = localStorage.getItem(KEY + '-tab'); if (t) document.querySelector(`.tab[data-tab="${t}"]`)?.click(); } catch (e) {}
+
+// ---------- static
+document.getElementById('levelsList').innerHTML = LEVELS.map(l => `<div class="rule"><div style="min-width:0;">${lvlTag(l.id)}<div class="note" style="margin-top:4px;">${esc(l.papel)}</div></div></div>`).join('');
+const lvlOpts = LEVELS.map(l => `<option value="${l.id}">N${l.id} · ${esc(l.nome)}</option>`).join('');
+document.getElementById('fLevel').insertAdjacentHTML('beforeend', lvlOpts);
+document.getElementById('nLevel').innerHTML = lvlOpts;
+document.getElementById('nFormat').innerHTML = FORMATS.map(f => `<option>${esc(f)}</option>`).join('');
+document.getElementById('gCount').innerHTML = [5, 6, 7, 8, 9, 10].map(n => `<option ${n === 5 ? 'selected' : ''}>${n}</option>`).join('');
+
+// ---------- clients
+function renderClients() {
+  const s = document.getElementById('clientSel');
+  s.innerHTML = db.clients.map(c => `<option value="${c.id}" ${c.id === db.current ? 'selected' : ''}>${esc(c.nome)}</option>`).join('');
+}
+document.getElementById('clientSel').addEventListener('change', e => { db.current = e.target.value; save(); renderAll(); });
+document.getElementById('btnNewClient').addEventListener('click', () => {
+  const n = prompt('Nome do cliente'); if (!n) return;
+  const c = newClient(n.trim()); db.clients.push(c); db.current = c.id; save(); renderAll();
+  document.querySelector('.tab[data-tab="briefing"]').click();
+});
+document.getElementById('btnRenameClient').addEventListener('click', () => {
+  const n = prompt('Novo nome', cl().nome); if (!n) return; cl().nome = n.trim(); save(); renderAll();
+});
+document.getElementById('btnDelClient').addEventListener('click', () => {
+  if (db.clients.length === 1) return toast('Precisa ter pelo menos 1 cliente');
+  if (!confirm(`Excluir "${cl().nome}" e toda a biblioteca dele?`)) return;
+  db.clients = db.clients.filter(c => c.id !== db.current); db.current = db.clients[0].id; save(); renderAll();
+});
+
+// ---------- briefing
+function renderBrief() {
+  const b = cl().brief;
+  document.getElementById('briefFields').innerHTML = BRIEF.map(([k, l, ph]) =>
+    `<div><label for="b-${k}">${esc(l)}</label><input id="b-${k}" data-k="${k}" placeholder="${esc(ph)}" value="${esc(b[k] || '')}"></div>`).join('');
+  document.querySelectorAll('#briefFields input').forEach(i => i.addEventListener('input', e => { cl().brief[e.target.dataset.k] = e.target.value; save(); }));
+}
+
+// ---------- library
+const STATUS_LABEL = { livre: 'Livre', usado: 'Em campanha', vencedor: 'Vencedor', perdedor: 'Perdedor', neutro: 'Neutro' };
+const STATUS_CHIP = { livre: '', usado: 'live', vencedor: 'win', perdedor: 'lose', neutro: 'used' };
+function renderLib() {
+  const c = cl(), A = c.angles;
+  const free = A.filter(a => a.status === 'livre').length;
+  const used = A.length - free;
+  const wins = A.filter(a => a.status === 'vencedor').length;
+  const n = +document.getElementById('gCount').value || 5;
+  document.getElementById('libStats').innerHTML = `
+    <div class="stat"><div class="v">${A.length}</div><div class="k">ângulos na biblioteca</div></div>
+    <div class="stat"><div class="v">${free}</div><div class="k">ainda não testados</div></div>
+    <div class="stat"><div class="v">${Math.ceil(free / n)}</div><div class="k">campanhas até zerar (${n}/camp.)</div></div>
+    <div class="stat"><div class="v">${wins}</div><div class="k">vencedores</div></div>`;
+  const parts = ['vencedor', 'neutro', 'perdedor', 'usado', 'livre'];
+  const colors = { vencedor: 'var(--n5t)', neutro: 'var(--n3t)', perdedor: 'var(--n2t)', usado: 'var(--n4t)', livre: 'transparent' };
+  document.getElementById('libBar').innerHTML = parts.map(p => { const k = A.filter(a => a.status === p).length; return k ? `<span style="width:${k / A.length * 100}%;background:${colors[p]}" title="${STATUS_LABEL[p]}: ${k}"></span>` : ''; }).join('');
+  document.getElementById('libBarLegend').textContent = `${used} de ${A.length} usados · ` + parts.filter(p => p !== 'livre').map(p => `${STATUS_LABEL[p]} ${A.filter(a => a.status === p).length}`).join(' · ');
+
+  const fl = document.getElementById('fLevel').value, fs = document.getElementById('fStatus').value;
+  const list = A.filter(a => (!fl || a.level == fl) && (!fs || a.status === fs)).sort((x, y) => x.level - y.level);
+  document.getElementById('angleList').innerHTML = list.length ? list.map(a => `
+    <div class="angle">
+      <div class="t">${esc(a.name)}</div>
+      <div><select data-status="${a.id}" aria-label="Status" style="width:auto;padding:4px 8px;font-size:12px;">
+        ${Object.keys(STATUS_LABEL).map(s => `<option value="${s}" ${a.status === s ? 'selected' : ''}>${STATUS_LABEL[s]}</option>`).join('')}
+      </select></div>
+      <div class="h">“${esc(fill(a.hook))}”</div>
+      <div class="meta">${lvlTag(a.level)}<span class="chip">${esc(a.format)}</span>${a.camp ? `<span class="chip ${STATUS_CHIP[a.status]}">${esc(a.camp)}</span>` : ''}
+        <button class="ghost small" data-edit="${a.id}" style="padding:2px 8px;">Editar</button>
+        <button class="ghost small danger" data-del="${a.id}" style="padding:2px 8px;">Remover</button></div>
+    </div>`).join('') : '<div class="muted small">Nenhum ângulo com esse filtro.</div>';
+}
+document.getElementById('fLevel').addEventListener('change', renderLib);
+document.getElementById('fStatus').addEventListener('change', renderLib);
+document.getElementById('angleList').addEventListener('change', e => {
+  const id = e.target.dataset.status; if (!id) return;
+  const a = cl().angles.find(x => x.id === id); a.status = e.target.value; if (a.status === 'livre') a.camp = null;
+  save(); renderAll();
+});
+document.getElementById('angleList').addEventListener('click', e => {
+  const c = cl();
+  if (e.target.dataset.del) {
+    const a = c.angles.find(x => x.id === e.target.dataset.del);
+    if (!confirm(`Remover o ângulo "${a.name}"?`)) return;
+    c.angles = c.angles.filter(x => x.id !== a.id); save(); renderAll();
+  }
+  if (e.target.dataset.edit) {
+    const a = c.angles.find(x => x.id === e.target.dataset.edit);
+    const h = prompt('Gancho (use {produto}, {dor}, {desejo}, {objecao}, {oferta}, {publico})', a.hook); if (h === null) return;
+    a.hook = h; save(); renderLib();
+  }
+});
+document.getElementById('btnAddAngle').addEventListener('click', () => {
+  const name = document.getElementById('nName').value.trim(); if (!name) return toast('Dê um nome ao ângulo');
+  cl().angles.push({ id: uid(), level: +document.getElementById('nLevel').value, name, format: document.getElementById('nFormat').value, hook: document.getElementById('nHook').value.trim() || name, status: 'livre', camp: null });
+  document.getElementById('nName').value = ''; document.getElementById('nHook').value = '';
+  save(); renderAll(); toast('Ângulo adicionado');
+});
+document.getElementById('btnResetLib').addEventListener('click', () => {
+  if (!confirm('Restaurar a biblioteca padrão? Ângulos próprios e status deste cliente serão perdidos.')) return;
+  cl().angles = defaultAngles(); save(); renderAll();
+});
+
+// ---------- generator
+function generate(n) {
+  const c = cl();
+  const free = c.angles.filter(a => a.status === 'livre');
+  if (!free.length) { toast('Biblioteca zerada! Recicle os vencedores em formatos novos.'); return null; }
+  const byLvl = {}; LEVELS.forEach(l => byLvl[l.id] = free.filter(a => a.level === l.id).sort(() => Math.random() - .5));
+  const picked = [];
+  // round-robin pelos níveis (1→5) até completar n
+  while (picked.length < n && Object.values(byLvl).some(v => v.length)) {
+    for (const l of LEVELS) { if (picked.length >= n) break; const a = byLvl[l.id].shift(); if (a) picked.push(a); }
+  }
+  picked.sort((a, b) => a.level - b.level);
+  // formatos sem repetir
+  const usedF = new Set();
+  const ads = picked.map(a => {
+    let f = a.format;
+    if (usedF.has(f)) f = FORMATS.find(x => !usedF.has(x)) || f;
+    usedF.add(f);
+    return { angleId: a.id, level: a.level, name: a.name, format: f, hook: a.hook };
+  });
+  const num = String(c.camps.length + 1).padStart(2, '0');
+  const code = 'C' + num;
+  const struct = document.getElementById('gStruct').value;
+  const obj = document.getElementById('gObj').value;
+  const camp = {
+    id: uid(), code, date: new Date().toISOString().slice(0, 10), status: 'planejada', obj, struct,
+    nome: `${c.nome} | ${code} | ${obj} | CBO ${struct === '111' ? '1-1-1' : '1-1-' + ads.length} | Adv+ aberto`,
+    ads
+  };
+  picked.forEach(a => { a.status = 'usado'; a.camp = code; });
+  c.camps.push(camp); save();
+  return camp;
+}
+document.getElementById('btnGen').addEventListener('click', () => {
+  const camp = generate(+document.getElementById('gCount').value); if (!camp) return;
+  renderAll(); toast(`${camp.code} gerada`);
+});
+document.getElementById('gCount').addEventListener('change', renderAll);
+
+const CAMP_STATUS = ['planejada', 'em produção', 'no ar', 'encerrada'];
+function campText(camp) {
+  const c = cl();
+  const lines = [`CAMPANHA: ${camp.nome}`, `Estrutura: ${camp.struct === '111' ? 'CBO 1-1-1 — todos os criativos dentro de 1 anúncio (mídia flexível)' : 'CBO 1-1-' + camp.ads.length + ' — 1 anúncio por criativo'}`, `Público: Advantage+ 100% aberto`, `Verba sugerida: ${brl(c.cpa * 50 / 7)}/dia (CPA alvo ${brl(c.cpa)})`, '', 'CRIATIVOS:'];
+  camp.ads.forEach((a, i) => lines.push(`${camp.code}-A${i + 1} | N${a.level} ${LEVELS[a.level - 1].nome} | ${a.name} | ${a.format}\n   Gancho: "${fill(a.hook)}"`));
+  if (c.brief.site) lines.push('', `Destino: ${c.brief.site}`);
+  return lines.join('\n');
+}
+function renderCamps() {
+  const c = cl();
+  const free = c.angles.filter(a => a.status === 'livre').length;
+  document.getElementById('genInfo').textContent = `${free} ângulos livres`;
+  document.getElementById('btnGen').disabled = !free;
+  const list = [...c.camps].reverse();
+  document.getElementById('campList').innerHTML = list.length ? list.map(camp => {
+    const lv = new Set(camp.ads.map(a => a.level));
+    return `<div class="camp">
+      <div class="camp-h"><div class="camp-name">${esc(camp.nome)}</div>
+        <select data-cstatus="${camp.id}" aria-label="Status da campanha" style="width:auto;padding:4px 8px;font-size:12px;">${CAMP_STATUS.map(s => `<option ${camp.status === s ? 'selected' : ''}>${s}</option>`).join('')}</select></div>
+      <div class="small muted" style="margin-bottom:6px;">${camp.date} · ${camp.ads.length} criativos · cobre ${lv.size}/5 níveis${lv.size < 5 ? ' (faltam ângulos livres em algum nível)' : ''}</div>
+      ${camp.ads.map((a, i) => `<div class="ad"><div class="id">${camp.code}-A${i + 1}</div><div>${lvlTag(a.level)} <strong style="font-weight:500;">${esc(a.name)}</strong> · <span class="muted">${esc(a.format)}</span></div><div class="hook">“${esc(fill(a.hook))}”</div></div>`).join('')}
+      <div class="row" style="margin-top:10px;">
+        <button data-copy="${camp.id}">Copiar briefing</button>
+        <button class="ghost danger" data-cdel="${camp.id}">Desfazer campanha</button>
+      </div></div>`;
+  }).join('') : '<div class="card note">Nenhuma campanha ainda. Preencha o briefing e clique em <strong>Gerar próxima campanha</strong>.</div>';
+}
+document.getElementById('campList').addEventListener('change', e => {
+  const id = e.target.dataset.cstatus; if (!id) return;
+  cl().camps.find(x => x.id === id).status = e.target.value; save(); renderCal();
+});
+document.getElementById('campList').addEventListener('click', async e => {
+  const c = cl();
+  if (e.target.dataset.copy) {
+    const camp = c.camps.find(x => x.id === e.target.dataset.copy);
+    try { await navigator.clipboard.writeText(campText(camp)); toast('Briefing copiado'); }
+    catch (err) { prompt('Copie o texto:', campText(camp)); }
+  }
+  if (e.target.dataset.cdel) {
+    const camp = c.camps.find(x => x.id === e.target.dataset.cdel);
+    if (!confirm(`Desfazer ${camp.code}? Os ângulos voltam a ficar livres.`)) return;
+    camp.ads.forEach(ad => { const a = c.angles.find(x => x.id === ad.angleId); if (a && a.camp === camp.code) { a.status = 'livre'; a.camp = null; } });
+    c.camps = c.camps.filter(x => x.id !== camp.id); save(); renderAll();
+  }
+});
+
+// ---------- verba
+function renderVerba() {
+  const c = cl();
+  const cpa = +c.cpa || 0, cur = +c.cur || 0;
+  const daily = cpa * 50 / 7, min = daily * 0.8;
+  document.getElementById('verbaStats').innerHTML = `
+    <div class="stat"><div class="v">${brl(daily)}</div><div class="k">verba diária ideal (50 eventos/7d)</div></div>
+    <div class="stat"><div class="v">${brl(min)}</div><div class="k">mínimo aceitável (−20%)</div></div>
+    <div class="stat"><div class="v">${brl(daily * 30)}</div><div class="k">investimento/mês</div></div>
+    ${cur ? `<div class="stat"><div class="v">${brl(cur * 1.25)}</div><div class="k">próximo passo pra escalar (+25%)</div></div>
+    <div class="stat"><div class="v">${brl(cur * 0.75)}</div><div class="k">próximo passo pra reduzir (−25%)</div></div>` : ''}`;
+  let note = `Com CPA de ${brl(cpa)}, a campanha precisa de ~${brl(daily)}/dia pra bater 50 conversões em 7 dias e sair do aprendizado.`;
+  if (cur) {
+    const ev = cpa ? cur * 7 / cpa : 0;
+    note += `<br><br>Com ${brl(cur)}/dia você gera ~<strong>${Math.round(ev)} eventos/semana</strong> — ${ev >= 50 ? 'suficiente pra sair do aprendizado.' : cur >= min ? 'abaixo de 50, mas dentro da margem de −20%.' : 'abaixo do mínimo: considere otimizar pra um evento mais acima no funil (ex.: Adicionar ao carrinho) ou subir a verba.'}`;
+  }
+  note += `<br><br>Regra de otimização: só mexa <strong>até 25%</strong> da verba por vez e espere ~3 dias entre ajustes.`;
+  document.getElementById('verbaNote').innerHTML = note;
+}
+document.getElementById('vCpa').addEventListener('input', e => { cl().cpa = e.target.value; save(); renderVerba(); });
+document.getElementById('vCur').addEventListener('input', e => { cl().cur = e.target.value; save(); renderVerba(); });
+
+// ---------- calendário
+function nextMonday(d) { const x = new Date(d); x.setDate(x.getDate() + ((8 - x.getDay()) % 7 || 7)); return x; }
+function fmt(d) { return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }); }
+function renderCal() {
+  const c = cl();
+  const cap = Math.max(1, +c.cap || 7);
+  const n = +document.getElementById('gCount').value || 5;
+  const start = c.start ? new Date(c.start + 'T12:00:00') : new Date();
+  const free = c.angles.filter(a => a.status === 'livre').length;
+  const rows = [];
+  c.camps.forEach(camp => rows.push({ code: camp.code, ads: camp.ads.length, status: camp.status, levels: [...new Set(camp.ads.map(a => a.level))].sort() }));
+  const future = Math.ceil(free / n);
+  for (let i = 0; i < future; i++) rows.push({ code: 'C' + String(c.camps.length + i + 1).padStart(2, '0'), ads: Math.min(n, free - i * n), status: 'a gerar', levels: [] });
+  let cursor = new Date(start), acc = 0;
+  const html = rows.map(r => {
+    const weeks = r.ads / cap;
+    const prodStart = new Date(cursor);
+    acc += weeks;
+    const prodEnd = new Date(start); prodEnd.setDate(prodEnd.getDate() + Math.ceil(acc * 7) - 1);
+    cursor = new Date(prodEnd); cursor.setDate(cursor.getDate() + 1);
+    const launch = nextMonday(prodEnd);
+    const judge = new Date(launch); judge.setDate(judge.getDate() + 7);
+    return `<tr><td><strong style="font-weight:500;">${r.code}</strong></td><td>${r.ads}</td><td>${fmt(prodStart)} → ${fmt(prodEnd)}</td><td>${fmt(launch)}</td><td>${fmt(judge)}</td><td><span class="chip ${r.status === 'no ar' ? 'live' : r.status === 'encerrada' ? 'used' : ''}">${esc(r.status)}</span></td></tr>`;
+  }).join('');
+  document.getElementById('calTable').innerHTML = `<tr><th>Camp.</th><th>Criativos</th><th>Produção</th><th>Sobe</th><th>Avaliar</th><th>Status</th></tr>` + (html || '<tr><td colspan="6" class="muted">Sem campanhas.</td></tr>');
+}
+document.getElementById('cStart').addEventListener('change', e => { cl().start = e.target.value; save(); renderCal(); });
+document.getElementById('cCap').addEventListener('input', e => { cl().cap = e.target.value; save(); renderCal(); });
+
+// ---------- backup
+document.getElementById('btnExport').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'biblioteca-angulos.json'; a.click();
+});
+document.getElementById('btnImport').addEventListener('click', () => document.getElementById('fileImport').click());
+document.getElementById('fileImport').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try { const d = JSON.parse(await f.text()); if (!d.clients) throw 0; db = d; save(); renderAll(); toast('Importado'); }
+  catch (err) { toast('Arquivo inválido'); }
+});
+
+function renderAll() {
+  const c = cl(); db.current = c.id;
+  renderClients(); renderBrief(); renderLib(); renderCamps(); renderVerba(); renderCal();
+  document.getElementById('vCpa').value = c.cpa ?? '';
+  document.getElementById('vCur').value = c.cur ?? '';
+  document.getElementById('cStart').value = c.start || '';
+  document.getElementById('cCap').value = c.cap || 7;
+}
+renderAll();
+</script>
+</body>
+</html>
