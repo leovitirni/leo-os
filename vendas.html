@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vender como Terapeuta</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f5f4f0; --card: #fff; --line: #d3d1c7; --line2: #e8e6e0; --ink: #1a1a18; --muted: #888780; --soft: #5f5e5a;
+    --p1: #fcebeb; --p1t: #a32d2d; --p2: #eaf3de; --p2t: #3b6d11; --p3: #faeeda; --p3t: #854f0b; --p4: #e6f1fb; --p4t: #0c447c; --p5: #eeedfe; --p5t: #3c3489;
+    --accent: #1a1a18;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --card: #1f1f1c; --line: #3a3934; --line2: #2c2b27; --ink: #ecebe6; --muted: #9a998f; --soft: #b8b6ad;
+      --p1: #3d2222; --p1t: #f3a9a9; --p2: #233419; --p2t: #b4dc8c; --p3: #3b2e17; --p3t: #f2c27a; --p4: #1c2d40; --p4t: #9cc8f3; --p5: #2a2747; --p5t: #c4bffa;
+      --accent: #ecebe6;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding: 2rem 16px; }
+  .container { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 500; margin: .5rem 0 4px; }
+  h2 { font-size: 16px; font-weight: 500; margin: 2rem 0 .75rem; }
+  .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.5; }
+  .back { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .card { background: var(--card); border: 0.5px solid var(--line); border-radius: 12px; padding: 1.1rem 1.25rem; margin-bottom: 12px; }
+  .note { font-size: 14px; color: var(--soft); line-height: 1.6; }
+  .phase { border-radius: 12px; padding: 1rem 1.15rem; margin-bottom: 12px; border: 0.5px solid var(--line); background: var(--card); }
+  .ph-tag { display: inline-block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; padding: 3px 9px; border-radius: 6px; margin-bottom: 6px; }
+  .ph1 .ph-tag { background: var(--p1); color: var(--p1t); } .ph2 .ph-tag { background: var(--p2); color: var(--p2t); } .ph3 .ph-tag { background: var(--p3); color: var(--p3t); } .ph4 .ph-tag { background: var(--p4); color: var(--p4t); } .ph5 .ph-tag { background: var(--p5); color: var(--p5t); }
+  .ph-goal { font-size: 13px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+  .q { display: grid; grid-template-columns: 22px 1fr; gap: 2px 10px; padding: 10px 0; border-top: 0.5px solid var(--line2); }
+  .q input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); }
+  .q .pt { font-size: 15px; line-height: 1.4; }
+  .q .ad { grid-column: 2; font-size: 13px; color: var(--soft); line-height: 1.45; }
+  .q .en { grid-column: 2; font-size: 11px; color: var(--muted); font-style: italic; }
+  .q .tip { grid-column: 2; font-size: 12px; color: var(--p4t); line-height: 1.45; margin-top: 2px; }
+  .q.done .pt { color: var(--muted); text-decoration: line-through; }
+  .rule { display: flex; gap: 10px; padding: 7px 0; border-top: 0.5px solid var(--line2); font-size: 14px; line-height: 1.5; }
+  .rule:first-child { border-top: 0; }
+  .rule .n { color: var(--muted); font-size: 12px; min-width: 16px; padding-top: 2px; }
+  textarea { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 0.5px solid var(--line); border-radius: 8px; padding: 10px; width: 100%; min-height: 110px; resize: vertical; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+  button { font: inherit; font-size: 13px; cursor: pointer; border-radius: 8px; padding: 7px 12px; border: 0.5px solid var(--line); background: var(--card); color: var(--ink); }
+  .toggle { font-size: 13px; color: var(--soft); display: flex; gap: 6px; align-items: center; }
+  .hide-ad .ad, .hide-ad .en { display: none; }
+  .progress { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back" href="index.html">← Big Picture</a>
+  <h1>Vender como Terapeuta</h1>
+  <div class="subtitle">Roteiro de reunião de vendas (serviço R$3k+). Quanto mais fundo você cava, mais fácil vende. Você não convence o cliente, ele se convence sozinho ao responder.</div>
+
+  <div class="card">
+    <div class="rule"><span class="n">1</span><div><strong>Fale 20%, escute 80%.</strong> Faça uma pergunta e fique em silêncio, mesmo se ficar desconfortável.</div></div>
+    <div class="rule"><span class="n">2</span><div>Depois da resposta, aprofunde: <em>"Me conta mais."</em> / <em>"Como assim?"</em> / <em>"E o que isso causa?"</em></div></div>
+    <div class="rule"><span class="n">3</span><div><strong>Repita com as palavras dele.</strong> "Então o que pesa é ___, é isso?" Na proposta, use exatamente essas palavras.</div></div>
+    <div class="rule"><span class="n">4</span><div>Não apresente solução antes da etapa 4. Primeiro a dor e o futuro, depois o produto.</div></div>
+  </div>
+
+  <div class="row" style="justify-content:space-between;margin:1.25rem 0 .5rem;">
+    <label class="toggle"><input type="checkbox" id="tglAd" checked> Mostrar versão adaptada ao tráfego</label>
+    <span class="progress" id="prog"></span>
+  </div>
+
+  <div id="phases"></div>
+
+  <h2>Anotações da reunião</h2>
+  <div class="card">
+    <textarea id="notes" placeholder="Cliente / data&#10;Dor nas palavras dele:&#10;O que ele notaria primeiro:&#10;Nota 1–10:&#10;O que falta pra ter confiança:"></textarea>
+    <div class="row">
+      <button id="btnCopy">Copiar anotações</button>
+      <button id="btnReset">Nova reunião (limpar)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHASES = [
+  { tag: '1 · Abrir a dor', goal: 'Fazer o cliente falar o problema real, não o superficial.', qs: [
+    [7, "O que é mais difícil nisso do que as pessoas imaginam?", "What's harder about this than people realize?", "O que é mais difícil em fazer anúncio dar venda do que as pessoas de fora imaginam?"],
+    [8, "Com o que você se acostumou que gostaria de não ter se acostumado?", "What have you gotten used to that you wish you hadn't?", "Que resultado ruim você já aceitou como \"normal\" na loja? (ROAS baixo, mês fraco, depender de promoção…)"],
+    [5, "Quando isso é menos problema?", "When is this less of a problem?", "Teve algum mês em que as vendas foram bem? O que estava diferente?"],
+  ]},
+  { tag: '2 · Visualizar o futuro', goal: 'Ele descreve o \"depois\" e cria o desejo com as próprias palavras.', qs: [
+    [2, "Se isso estivesse resolvido, o que você notaria primeiro?", "If this were fixed, what would you notice first?", "Se o tráfego estivesse rodando redondo, qual número você olharia primeiro de manhã?"],
+    [12, "Pra que você finalmente teria espaço?", "What would you finally have room for?", "Com as vendas previsíveis, onde você colocaria seu tempo? (produto, loja física, família…)"],
+    [11, "O que faz valer a pena resolver isso, mesmo sendo difícil?", "What makes this worth solving, even if it's hard?", null],
+  ]},
+  { tag: '3 · Respeitar a ambivalência', goal: 'Mostrar que você não vai destruir o que funciona. Baixa a guarda.', qs: [
+    [3, "O que está funcionando que você não quer perder?", "What's working that you don't want to lose?", "O que está funcionando hoje (orgânico, um produto campeão, um público) que a gente precisa proteger?"],
+    [9, "Do que você sentiria falta de como as coisas estão hoje?", "What would you miss about how things are now?", "Do que você sentiria falta de fazer sozinho / com a agência atual?"],
+    [10, "O que te preocupa em tentar de novo?", "What worries you about trying again?", "Você já contratou gestor antes? O que te preocupa em tentar de novo?"],
+  ]},
+  { tag: '4 · Prontidão e decisão', goal: 'Medir o quão pronto ele está e tirar a fricção do próximo passo.', qs: [
+    [6, "De 1 a 10, quão pronto você está pra algo mudar?", "From 1 to 10, how ready are you for something to change?", null, 'Se ele disser 6, pergunte "Por que não um 4?". Ele vai argumentar a favor da mudança. Depois: "O que te levaria a um 8?"'],
+    [4, "O que torna isso difícil de decidir?", "What makes this hard to decide?", null, 'Aqui aparece a objeção real (preço, sócio, timing). Trate só ela.'],
+    [13, "O que você precisa saber que ainda não sabe?", "What do you need to know that you don't know yet?", null],
+    [14, "O que te deixaria um ponto mais confiante?", "What would make you one point more confident?", null, 'Hora de case, print de resultado, garantia ou período de teste.'],
+    [1, "O que faria o próximo passo parecer mais fácil?", "What would make the next step feel easier?", "O que faria começar parecer mais fácil? (começar com 1 canal, contrato mensal, onboarding em 7 dias…)"],
+  ]},
+  { tag: '5 · Fechar a escuta', goal: 'Garantir que não sobrou nada não dito antes de propor.', qs: [
+    [15, "O que você ainda precisa dizer em voz alta?", "What do you still need to say out loud?", null],
+    [16, "O que eu ainda não estou entendendo?", "What am I not understanding yet?", null, 'Última pergunta antes da proposta. Depois: "Posso te mostrar como eu resolveria isso?"'],
+  ]},
+];
+const KEY = 'leo-vendas-v1';
+let st = { done: {}, notes: '', showAd: true };
+try { Object.assign(st, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const total = PHASES.reduce((n, p) => n + p.qs.length, 0);
+
+function render() {
+  document.getElementById('phases').innerHTML = PHASES.map((p, i) => `
+    <div class="phase ph${i + 1}"><span class="ph-tag">${esc(p.tag)}</span><div class="ph-goal">${esc(p.goal)}</div>
+    ${p.qs.map(([n, pt, en, ad, tip]) => `
+      <label class="q ${st.done[n] ? 'done' : ''}"><input type="checkbox" data-n="${n}" ${st.done[n] ? 'checked' : ''}>
+        <span class="pt">${esc(pt)}</span>
+        ${ad ? `<span class="ad">→ ${esc(ad)}</span>` : ''}
+        ${tip ? `<span class="tip">${esc(tip)}</span>` : ''}
+        <span class="en">#${n} · ${esc(en)}</span>
+      </label>`).join('')}
+    </div>`).join('');
+  document.getElementById('phases').classList.toggle('hide-ad', !st.showAd);
+  document.getElementById('tglAd').checked = st.showAd;
+  document.getElementById('notes').value = st.notes;
+  document.getElementById('prog').textContent = `${Object.values(st.done).filter(Boolean).length}/${total} perguntas feitas`;
+}
+document.getElementById('phases').addEventListener('change', e => { const n = e.target.dataset.n; if (!n) return; st.done[n] = e.target.checked; save(); render(); });
+document.getElementById('tglAd').addEventListener('change', e => { st.showAd = e.target.checked; save(); render(); });
+document.getElementById('notes').addEventListener('input', e => { st.notes = e.target.value; save(); });
+document.getElementById('btnCopy').addEventListener('click', async () => { try { await navigator.clipboard.writeText(st.notes); } catch (e) { prompt('Copie:', st.notes); } });
+document.getElementById('btnReset').addEventListener('click', () => { if (!confirm('Limpar checks e anotações?')) return; st.done = {}; st.notes = ''; save(); render(); });
+render();
+</script>
+</body>
+</html>
